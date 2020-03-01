@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "904356009795",
+    "firebase_url": "https://decusproject-a9cf2.firebaseio.com",
+    "project_id": "decusproject-a9cf2",
+    "storage_bucket": "decusproject-a9cf2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:904356009795:android:0bd815d8a3aaa620ff01f6",
+        "android_client_info": {
+          "package_name": "com.spse.decusproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "904356009795-klaq6j2d09e7hd0g1hovffa9ang59goi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.spse.decusproject",
+            "certificate_hash": "a74a9ee5c856ee92ca54ee8187d38f8cc84663e5"
+          }
+        },
+        {
+          "client_id": "904356009795-fkk99aenpdsdovth42gds5qogqum7h7q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDajJFOggGjUZgPuJZfhnGla5GzU6nXv5Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "904356009795-fkk99aenpdsdovth42gds5qogqum7h7q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
