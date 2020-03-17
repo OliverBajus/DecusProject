@@ -32,12 +32,13 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle extras = intent.getExtras();
-        if(extras != null)
-            data = extras.getString("ingrediencie"); // retr
     }
 
     public HomeFragment(){
+
+        //Bundle extras = intent.getExtras();
+        //if(extras != null)
+          //  data = extras.getString("ingrediencie"); // retr
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
