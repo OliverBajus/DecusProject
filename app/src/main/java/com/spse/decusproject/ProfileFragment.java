@@ -56,9 +56,14 @@ public class ProfileFragment extends Fragment {
     @androidx.annotation.Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @androidx.annotation.Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         final View view = inflater.inflate(R.layout.fragment_profile, container, false);
         findViews(view);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         DocumentReference docRef = fStore.collection("users").document(userId);
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -126,7 +131,7 @@ public class ProfileFragment extends Fragment {
 
                 final AlertDialog.Builder emailResetDialog = new AlertDialog.Builder(v.getContext());
                 emailResetDialog.setTitle("Reset Email ?");
-               emailResetDialog.setMessage("Enter your new email.");
+                emailResetDialog.setMessage("Enter your new email.");
                 emailResetDialog.setView(resetEmail);
 
                 emailResetDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -159,8 +164,9 @@ public class ProfileFragment extends Fragment {
 
             }
         });
-        return view;
     }
+
+
 
     private void findViews(View view) {
         fullName = view.findViewById(R.id.profileName);
