@@ -13,6 +13,10 @@ import com.spse.decusproject.cosmetic_database.CosmeticDatabase;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,6 +37,16 @@ public class  HomeFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", java.util.Locale.ENGLISH);
+        Date myDate = null;
+        try {
+            myDate = sdf.parse("28/12/2013");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        sdf.applyPattern("EEE, d MMM yyyy");
+        String sMyDate = sdf.format(myDate);
+        System.out.println("TU SOOOM datum " + sMyDate);
     }
 
     public HomeFragment(){

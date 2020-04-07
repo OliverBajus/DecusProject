@@ -45,12 +45,19 @@ public class ProfileFragment extends Fragment {
     FirebaseFirestore fStore;
     String userId;
 
-    @androidx.annotation.Nullable
+
+    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @androidx.annotation.Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         findViews(view);
+
+        return view;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         DocumentReference docRef = fStore.collection("users").document(userId);
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -60,7 +67,7 @@ public class ProfileFragment extends Fragment {
                 email.setText(documentSnapshot.getString("email"));
             }
         });
-        return view;
+
     }
 
     private void findViews(View view) {
