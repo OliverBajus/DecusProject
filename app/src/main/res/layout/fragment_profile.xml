@@ -17,10 +17,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <Button
-                android:id="@+id/button"
+                android:id="@+id/logout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="logout"
                 android:text="Logout"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -76,6 +75,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
                 app:layout_constraintTop_toBottomOf="@+id/profileName" />
+
             <TextView
                 android:id="@+id/changePassword"
                 android:layout_width="0dp"
@@ -86,8 +86,8 @@
                 android:text="Change password"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toBottomOf="@+id/profileEmail"
-                android:onClick="changePassword"/>
+                app:layout_constraintTop_toBottomOf="@+id/profileEmail" />
+
             <TextView
                 android:id="@+id/changeEmail"
                 android:layout_width="0dp"
@@ -98,9 +98,7 @@
                 android:text="Change email"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toBottomOf="@+id/changePassword"
-                android:onClick="changeEmail"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/changePassword" />
 
 
 

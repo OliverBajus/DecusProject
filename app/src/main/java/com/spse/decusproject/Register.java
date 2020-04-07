@@ -13,14 +13,29 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import io.opencensus.internal.Utils;
 
 import com.example.decus.R;
+import com.firebase.ui.auth.data.model.User;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.internal.Constants;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -30,7 +45,7 @@ import java.util.Map;
 public class Register extends AppCompatActivity {
     public static final String TAG = "TAG";
     EditText mFullName,mEmail,mPassword;
-    Button mRegisterBtn;
+    Button mRegisterBtn,demoBtn;
     TextView mLoginBtn;
     FirebaseAuth fAuth;
     ProgressBar progressBar;
@@ -47,6 +62,7 @@ public class Register extends AppCompatActivity {
         mPassword   = findViewById(R.id.Password);
         mRegisterBtn= findViewById(R.id.btnRegister);
         mLoginBtn   = findViewById(R.id.lnkLogin);
+
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
@@ -88,6 +104,22 @@ public class Register extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
+
+                            //email verification
+                            FirebaseUser vUser=fAuth.getCurrentUser();
+                            vUser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(Register.this,"Email has been sent.",Toast.LENGTH_LONG).show();
+                                }
+                            })
+                                 .addOnFailureListener(new OnFailureListener() {
+                                     @Override
+                                     public void onFailure(@NonNull Exception e) {
+                                         Toast.makeText(Register.this,"Error!" + e.getMessage(),Toast.LENGTH_LONG).show();
+                                     }
+                                 }) ;
+
                             Toast.makeText(Register.this, "User Created.", Toast.LENGTH_SHORT).show();
                             userID = fAuth.getCurrentUser().getUid();
                             DocumentReference documentReference = fStore.collection("users").document(userID);
@@ -122,5 +154,6 @@ public class Register extends AppCompatActivity {
             }
         });
 
-    }
-}
+        
+
+}}
