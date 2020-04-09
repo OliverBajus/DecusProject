@@ -1,5 +1,7 @@
 package com.spse.decusproject;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import com.example.decus.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -24,10 +27,12 @@ import androidx.fragment.app.Fragment;
 
 public class ProfileFragment extends Fragment {
 
-    TextView fullName,email,changePassword;
+    TextView fullName,email,changePassword,changeEmail;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
+    FirebaseUser user;
     String userId;
+    Button logOut,addAllergen,addProduct;
 
 
     @Nullable
@@ -144,6 +149,14 @@ public class ProfileFragment extends Fragment {
 
             }
         });
+
+        addProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity().getApplicationContext(), PopActivity.class));
+
+            }
+        });
     }
 
 
@@ -155,22 +168,16 @@ public class ProfileFragment extends Fragment {
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         userId = fAuth.getCurrentUser().getUid();
+        logOut=view.findViewById(R.id.logout);
+        changePassword=view.findViewById(R.id.changePassword);
+        changeEmail=view.findViewById(R.id.changeEmail);
+        addAllergen = view.findViewById(R.id.addAllergen);
+        addProduct = view.findViewById(R.id.addProduct);
     }
 
-    public void logout(View view) {
-        FirebaseAuth.getInstance().signOut();//logout
-        startActivity(new Intent(getActivity().getApplicationContext(),Login.class));
-        getActivity().finish();
-    }
 
 
-    public void changePassword(View view) {
-        Intent i=new Intent(getActivity().getApplicationContext(),PopActivity.class);
-        startActivity(i);
-    }
 
-    public void changeEmail(View view) {
-    }
 
 
 
