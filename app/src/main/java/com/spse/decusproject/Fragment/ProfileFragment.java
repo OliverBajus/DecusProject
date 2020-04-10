@@ -1,5 +1,7 @@
-package com.spse.decusproject;
+package com.spse.decusproject.Fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,9 +16,11 @@ import com.example.decus.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.spse.decusproject.Login;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,13 +28,14 @@ import androidx.fragment.app.Fragment;
 
 public class ProfileFragment extends Fragment {
 
-    TextView fullName,email,changePassword;
+    TextView fullName,email,changePassword,changeEmail;
     FirebaseAuth fAuth;
     FirebaseFirestore fStore;
     String userId;
+    Button logOut;
+    FirebaseUser user;
 
-
-    @Nullable
+    @androidx.annotation.Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @androidx.annotation.Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_profile, container, false);
@@ -55,7 +60,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();//logout
-                startActivity(new Intent(getActivity().getApplicationContext(),Login.class));
+                startActivity(new Intent(getActivity().getApplicationContext(), Login.class));
                 getActivity().finish();
             }
         });
@@ -152,25 +157,17 @@ public class ProfileFragment extends Fragment {
         fullName = view.findViewById(R.id.profileName);
         email    = view.findViewById(R.id.profileEmail);
         changePassword = view.findViewById(R.id.changePassword);
+        changeEmail = view.findViewById(R.id.changeEmail);
+        logOut = view.findViewById(R.id.button);
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         userId = fAuth.getCurrentUser().getUid();
-    }
+        user = fAuth.getCurrentUser();
 
-    public void logout(View view) {
-        FirebaseAuth.getInstance().signOut();//logout
-        startActivity(new Intent(getActivity().getApplicationContext(),Login.class));
-        getActivity().finish();
     }
 
 
-    public void changePassword(View view) {
-        Intent i=new Intent(getActivity().getApplicationContext(),PopActivity.class);
-        startActivity(i);
-    }
 
-    public void changeEmail(View view) {
-    }
 
 
 

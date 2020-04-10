@@ -17,7 +17,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class FotgotPasswordActivity extends AppCompatActivity {
+public class ForgotPasswordActivity extends AppCompatActivity {
 
     ProgressBar progressBar;
     EditText email;
@@ -55,10 +55,10 @@ public class FotgotPasswordActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<Void> task) {
                                 progressBar.setVisibility(View.GONE);
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(FotgotPasswordActivity.this,"We sent you password reset email",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(ForgotPasswordActivity.this,"We sent you password reset email",Toast.LENGTH_LONG).show();
                                     startActivity(new Intent(getApplicationContext(),Login.class));
                                 }
-                                else  Toast.makeText(FotgotPasswordActivity.this,"Error!!",Toast.LENGTH_LONG).show();
+                                else  Toast.makeText(ForgotPasswordActivity.this,"Error!!",Toast.LENGTH_LONG).show();
                             }
                         });
             }

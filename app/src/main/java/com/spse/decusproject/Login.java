@@ -94,7 +94,7 @@ public class Login extends AppCompatActivity {
         mPasswordForgotBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),FotgotPasswordActivity.class));
+                startActivity(new Intent(getApplicationContext(), ForgotPasswordActivity.class));
             }
         });
 

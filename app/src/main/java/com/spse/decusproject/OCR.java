@@ -20,6 +20,7 @@ import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
+import com.spse.decusproject.Fragment.HomeFragment;
 
 import java.io.IOException;
 import java.util.regex.Pattern;
@@ -68,7 +69,7 @@ public class OCR extends AppCompatActivity {
         }
 
         dialog = new Dialog(this);
-        dialog.setContentView(R.layout.pop_up);
+        dialog.setContentView(R.layout.activity_pop);
         camera = findViewById(R.id.surfaceView);
         textView = findViewById(R.id.text_view);
 
@@ -156,9 +157,9 @@ public class OCR extends AppCompatActivity {
     }
 
     public void showPopUp(final String ingrediencie) {
-        txtResult = dialog.findViewById(R.id.txtResultDrawable);
-        ano = dialog.findViewById(R.id.anoButton);
-        nie = dialog.findViewById(R.id.nieButton);
+        txtResult = dialog.findViewById(R.id.ingredient_name);
+        ano = dialog.findViewById(R.id.save_button);
+        nie = dialog.findViewById(R.id.cancel_button);
 
         txtResult.setText(ingrediencie);
 

@@ -1,4 +1,4 @@
-package com.spse.decusproject.cosmetic_database;
+package com.spse.decusproject.CosmeticDatabase;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,16 +24,12 @@ public class CosmeticDatabase {
         return function;
     }
 
-    public CosmeticDatabase(String name){
-        this.name = name;
+    public CosmeticDatabase(String input) throws IOException, JSONException{
 
-        this.name.replaceAll(" ","+");
+        input.replaceAll(" ","+");
 
-    }
 
-    public String getDataFromDatabase() throws IOException, JSONException {
-
-        String url = "https://public.opendatasoft.com/api/records/1.0/search/?dataset=cosmetic-ingredient-database-ingredients-and-fragrance-inventory&q="+name+"&rows=1&facet=update_date&facet=restriction&facet=function";
+        String url = "https://public.opendatasoft.com/api/records/1.0/search/?dataset=cosmetic-ingredient-database-ingredients-and-fragrance-inventory&q="+input+"&rows=1&facet=update_date&facet=restriction&facet=function";
 
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -54,16 +50,16 @@ public class CosmeticDatabase {
         for(int i=0; i<length; i++)
         {
             JSONObject jObj = jsonRecords.getJSONObject(i);
-            function = jObj.optString("fields");
+
+            JSONObject jsonFields= new JSONObject(jObj.getJSONObject("fields").toString());
+            name =  (jsonFields.getString("inci_name"));
+            function = (jsonFields.getString("function"));
         }
 
 
 
         System.out.println("funkcia" + function);
 
-        return function;
     }
-
-
 
 }
