@@ -2,6 +2,7 @@ package com.spse.decusproject;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toolbar;
 
 import com.example.decus.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -22,9 +23,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setLogo(R.mipmap.ic_logo);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
+
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,

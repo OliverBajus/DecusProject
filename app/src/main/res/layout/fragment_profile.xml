@@ -18,31 +18,42 @@
             android:layout_height="match_parent">
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/logout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Logout"
-                android:onClick="logout"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView"
-                app:layout_constraintVertical_bias="0.83" />
+                app:layout_constraintVertical_bias="0.893" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/profileTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:text="Your Profile"
+                android:textColor="#000000"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.069"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.13" />
+                app:layout_constraintVertical_bias="0.005" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2.5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="50dp"
+                android:background="#000000"
+                android:backgroundTint="#000000"
+                app:layout_constraintTop_toBottomOf="@+id/profileTxt" />
+
 
             <ImageView
                 android:id="@+id/imageView"
@@ -51,8 +62,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView4"
-                app:srcCompat="@mipmap/ic_launcher" />
+                app:layout_constraintTop_toBottomOf="@+id/profileTxt"
+                app:srcCompat="@drawable/profile_pic_default" />
 
             <TextView
                 android:id="@+id/profileName"
@@ -86,10 +97,11 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:text="Change password"
-                android:onClick="changePassword"
+                android:textColor="#000000"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
                 app:layout_constraintTop_toBottomOf="@+id/profileEmail" />
+
             <TextView
                 android:id="@+id/changeEmail"
                 android:layout_width="0dp"
@@ -98,11 +110,88 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:text="Change email"
+                android:textColor="#000000"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView"
-                app:layout_constraintTop_toBottomOf="@+id/changePassword"
-                android:onClick="changeEmail"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/changePassword" />
+
+            <TextView
+                android:id="@+id/allergensTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="Your Allergens"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.052"
+                app:layout_constraintStart_toEndOf="@id/imageView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/imageView"
+                app:layout_constraintVertical_bias="0.291" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2.5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="50dp"
+                android:id="@+id/line2"
+                android:background="#000000"
+                android:backgroundTint="#000000"
+                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintTop_toBottomOf="@+id/allergensTxt" />
+
+            <Button
+                android:id="@+id/addAllergen"
+                android:layout_width="39dp"
+                android:layout_height="38dp"
+                android:layout_marginRight="50dp"
+                android:background="@drawable/circle_button"
+                app:layout_constraintBottom_toBottomOf="@+id/allergensTxt"
+                app:layout_constraintEnd_toEndOf="parent"
+             />
+
+
+            <TextView
+                android:id="@+id/productsText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="Your Products"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.052"
+                app:layout_constraintStart_toEndOf="@id/line2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/line2"
+                app:layout_constraintVertical_bias="0.291" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2.5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="50dp"
+                android:background="#000000"
+                android:backgroundTint="#000000"
+                app:layout_constraintStart_toEndOf="@+id/imageView"
+                app:layout_constraintTop_toBottomOf="@+id/productsText" />
+
+            <Button
+                android:id="@+id/addProduct"
+                android:layout_width="39dp"
+                android:layout_height="38dp"
+                android:layout_marginRight="50dp"
+                android:background="@drawable/circle_button"
+                app:layout_constraintBottom_toBottomOf="@+id/productsText"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
