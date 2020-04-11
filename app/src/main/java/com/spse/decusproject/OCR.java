@@ -49,7 +49,7 @@ public class OCR extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ocr);
+        setContentView(R.layout.product_list_layout);
 
         if (Build.VERSION.SDK_INT >= 23)
         {

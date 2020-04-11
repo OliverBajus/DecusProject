@@ -5,8 +5,10 @@ import android.content.Intent;
 import java.util.Date;
 
 public class Product {
-    String name,brand,category,date,userID;
+    private String name,brand,category,date,userID;
 
+    public Product() {
+    }
 
     public Product(String name, String brand, String category, String date, String userID) {
         this.name = name;
@@ -16,11 +18,11 @@ public class Product {
         this.userID = userID;
     }
 
-    public String getName() {
+    public  String getName() {
         return name;
     }
 
-    public String getBrand() {
+    public  String getBrand() {
         return brand;
     }
 

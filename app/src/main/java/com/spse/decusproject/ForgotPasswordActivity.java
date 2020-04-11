@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -21,7 +22,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     ProgressBar progressBar;
     EditText email;
-    Button sendReset,goBack;
+    Button sendReset;
+    ImageView goBack;
 
 
     FirebaseAuth firebaseAuth;
@@ -30,12 +32,12 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fotgot_password);
 
-
+        getSupportActionBar().hide();
 
         progressBar=findViewById(R.id.progressBar);
         email=findViewById(R.id.emailForReset);
         sendReset=findViewById(R.id.btnSendReset);
-        goBack=findViewById(R.id.goBackBtn);
+        goBack=findViewById(R.id.goBack);
 
         firebaseAuth= FirebaseAuth.getInstance();
 

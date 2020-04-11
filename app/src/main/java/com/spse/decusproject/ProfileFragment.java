@@ -9,21 +9,39 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.decus.R;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerAdapter_LifecycleAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.spse.decusproject.Login;
+import com.spse.decusproject.PopActivity;
+import com.spse.decusproject.Product;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class ProfileFragment extends Fragment {
 
@@ -33,6 +51,17 @@ public class ProfileFragment extends Fragment {
     FirebaseUser user;
     String userId;
     Button logOut,addAllergen,addProduct;
+    RecyclerView recyclerView;
+
+    DatabaseReference databaseProducts;
+    FirebaseFirestore firebaseFirestore;
+    FirebaseRecyclerOptions<Product> options;
+    FirebaseRecyclerAdapter<Product, ProductsViewHolder> adapter;
+
+    Query databaseProductsQuery;
+
+
+
 
 
     @Nullable
@@ -40,7 +69,44 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @androidx.annotation.Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_profile, container, false);
         findViews(view);
+        fillRecyclerView();
+
         return view;
+    }
+
+    private void fillRecyclerView() {
+
+        options= new FirebaseRecyclerOptions.Builder<Product>().setQuery(databaseProductsQuery,Product.class).build();
+        adapter= new FirebaseRecyclerAdapter<Product, ProductsViewHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull ProductsViewHolder holder, int position, @NonNull Product model) {
+
+                    holder.name.setText(model.getName());
+                    holder.brand.setText("Brand: "+model.getBrand());
+                    holder.category.setText("Category: "+model.getCategory());
+                    holder.date.setText(model.getDate());
+                    if (model.getCategory().equals("Moisturizes"))
+                        holder.image.setImageResource(R.drawable.moisturizes);
+                    if (model.getCategory().equals("Nails care"))
+                        holder.image.setImageResource(R.drawable.nails_care);
+                    if (model.getCategory().equals("Fragrances"))
+                        holder.image.setImageResource(R.drawable.fragrances);
+                    if (model.getCategory().equals("Make up and colour cosmetics"))
+                        holder.image.setImageResource(R.drawable.make_up);
+
+
+
+            }
+
+            @NonNull
+            @Override
+            public ProductsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+                View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.product_list_layout,parent,false);
+                return new ProductsViewHolder(v);
+            }
+        };
+        adapter.startListening();
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -60,7 +126,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();//logout
-                startActivity(new Intent(getActivity().getApplicationContext(),Login.class));
+                startActivity(new Intent(getActivity().getApplicationContext(), Login.class));
                 getActivity().finish();
             }
         });
@@ -157,6 +223,9 @@ public class ProfileFragment extends Fragment {
 
             }
         });
+
+
+
     }
 
 
@@ -173,11 +242,16 @@ public class ProfileFragment extends Fragment {
         changeEmail=view.findViewById(R.id.changeEmail);
         addAllergen = view.findViewById(R.id.addAllergen);
         addProduct = view.findViewById(R.id.addProduct);
+        databaseProducts = FirebaseDatabase.getInstance().getReference("products");
+        databaseProductsQuery = FirebaseDatabase.getInstance().getReference("products")
+                .orderByChild("userID")
+                .equalTo(fAuth.getCurrentUser().getUid());
+        recyclerView = view.findViewById(R.id.recyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        firebaseFirestore=FirebaseFirestore.getInstance();
+        recyclerView.setHasFixedSize(true);
     }
-
-
-
-
 
 
 

@@ -15,7 +15,7 @@ import android.widget.SearchView;
 
 import com.example.decus.R;
 import com.spse.decusproject.CosmeticDatabase.CosmeticDatabase;
-import com.spse.decusproject.ListViewAdapter;
+import com.spse.decusproject.Adapter.ListViewAdapter;
 import com.spse.decusproject.PopUpActivity;
 
 import org.json.JSONException;

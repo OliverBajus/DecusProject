@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.decus.R;
 
+
 public class PopUpActivity extends Activity {
 
     TextView ingredientName, ingredientFunction, ingredientDescription;
@@ -20,7 +21,7 @@ public class PopUpActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pop);
+        setContentView(R.layout.activity_popup);
         ingredientName = findViewById(R.id.ingredient_name);
         ingredientDescription = findViewById(R.id.ingredient_description);
         ingredientFunction = findViewById(R.id.ingredient_function);

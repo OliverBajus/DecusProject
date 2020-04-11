@@ -2,7 +2,6 @@ package com.spse.decusproject;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Toolbar;
 
 import com.example.decus.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -14,7 +13,6 @@ import androidx.fragment.app.Fragment;
 
 import com.spse.decusproject.Fragment.HomeFragment;
 import com.spse.decusproject.Fragment.LogFragment;
-import com.spse.decusproject.Fragment.ProfileFragment;
 
 
 public class MainActivity extends AppCompatActivity {

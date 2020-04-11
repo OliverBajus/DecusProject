@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.spse.decusproject.Fragment.ProfileFragment">
+    tools:context="com.spse.decusproject.ProfileFragment">
 
     <FrameLayout
         android:id="@+id/fragment_container"
@@ -22,12 +22,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Logout"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintHorizontal_bias="0.975"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView"
-                app:layout_constraintVertical_bias="0.893" />
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteY="7dp" />
 
             <TextView
                 android:id="@+id/profileTxt"
@@ -166,9 +165,9 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.052"
-                app:layout_constraintStart_toEndOf="@id/line2"
+                app:layout_constraintStart_toEndOf="@id/allergensTxt"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/line2"
+                app:layout_constraintTop_toTopOf="@id/allergensTxt"
                 app:layout_constraintVertical_bias="0.291" />
 
             <View
@@ -190,10 +189,30 @@
                 app:layout_constraintBottom_toBottomOf="@+id/productsText"
                 app:layout_constraintEnd_toEndOf="parent" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:orientation="horizontal"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="60dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.052"
+                app:layout_constraintStart_toEndOf="@id/productsText"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/productsText">
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/recyclerView"
+                    />
+            </LinearLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </FrameLayout>
 
 
