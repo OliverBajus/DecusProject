@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
+
+    <item
+        android:id="@+id/changeData"
+        android:title="Change your data"
+        app:showAsAction="never"
+        >
+
+        <menu>
+
+            <item
+                android:id="@+id/changePassword"
+                android:title="Change password"
+
+                />
+
+            <item
+                android:id="@+id/changeEmail"
+                android:title="Change email" />
+
+        </menu>
+
+    </item>
+    <item
+        android:id="@+id/logout"
+        android:title="Log out"
+        app:showAsAction="never"
+        />
+
+
+
+
+    <item
+        android:id="@+id/quit"
+        android:title="Quit"
+        app:showAsAction="never"
+        />
+
+
+
+</menu>

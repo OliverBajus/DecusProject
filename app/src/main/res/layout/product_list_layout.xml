@@ -76,7 +76,7 @@
             android:layout_width="115dp"
             android:layout_height="match_parent"
             android:layout_marginStart="10dp"
-            android:src="@drawable/nails_care"
+            android:src="@drawable/moisturizes"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/card"

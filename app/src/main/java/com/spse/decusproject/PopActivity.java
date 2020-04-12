@@ -72,7 +72,7 @@ public class PopActivity extends Activity implements DatePickerDialog.OnDateSetL
             int width= dm.widthPixels;
             int height =dm.heightPixels;
 
-            getWindow().setLayout((int)(width*.8),(int)(height*.6));
+            getWindow().setLayout((int)(width*.8),(int)(height*.8));
 
             WindowManager.LayoutParams params=getWindow().getAttributes();
             params.gravity= Gravity.CENTER;

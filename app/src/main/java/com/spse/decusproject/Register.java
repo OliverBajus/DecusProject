@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.decus.R;
@@ -31,8 +30,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class Register extends AppCompatActivity {
     public static final String TAG = "TAG";
     EditText mFullName,mEmail,mPassword;
-    Button mRegisterBtn;
-    TextView mLoginBtn;
+    Button mRegisterBtn,mLoginBtn;
     FirebaseAuth fAuth;
     ProgressBar progressBar;
     FirebaseFirestore fStore;
@@ -43,13 +41,11 @@ public class Register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        getSupportActionBar().hide();
-
         mFullName   = findViewById(R.id.Name);
-        mEmail      = findViewById(R.id.Email);
-        mPassword   = findViewById(R.id.Password);
-        mRegisterBtn= findViewById(R.id.btnRegister);
-        mLoginBtn   = findViewById(R.id.lnkLogin);
+        mEmail      = findViewById(R.id.emailForReset);
+        mPassword   = findViewById(R.id.password);
+        mRegisterBtn= findViewById(R.id.btnSendReset);
+        mLoginBtn   = findViewById(R.id.lnkRegister);
 
         fAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
@@ -91,6 +87,24 @@ public class Register extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
+
+                            //send verification email
+
+                            FirebaseUser fUser=fAuth.getCurrentUser();
+                            fUser.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(Register.this,"Verification email has been sent",Toast.LENGTH_LONG).show();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(Register.this,"Error!!"+e.getMessage(),Toast.LENGTH_LONG).show();
+                                }
+                            });
+
+
+
                             Toast.makeText(Register.this, "User Created.", Toast.LENGTH_SHORT).show();
                             userID = fAuth.getCurrentUser().getUid();
                             DocumentReference documentReference = fStore.collection("users").document(userID);

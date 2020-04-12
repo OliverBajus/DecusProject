@@ -21,8 +21,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class Login extends AppCompatActivity {
     EditText mEmail,mPassword;
-    TextView mRegisterBtn,mPasswordForgotBtn;
-    Button mLoginBtn;
+    TextView mPasswordForgotBtn;
+    Button mRegisterBtn,mLoginBtn;
     ProgressBar progressBar;
     FirebaseAuth fAuth;
 
@@ -31,14 +31,13 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        getSupportActionBar().hide();
 
 
-        mEmail = findViewById(R.id.email);
+        mEmail = findViewById(R.id.emailForReset);
         mPassword = findViewById(R.id.password);
         progressBar = findViewById(R.id.progressBar);
         fAuth = FirebaseAuth.getInstance();
-        mLoginBtn = findViewById(R.id.loginBtn);
+        mLoginBtn = findViewById(R.id.btnSendReset);
         mRegisterBtn = findViewById(R.id.lnkRegister);
         mPasswordForgotBtn = findViewById(R.id.lnkForgotPassword);
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
