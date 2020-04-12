@@ -37,6 +37,7 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         myFragment =  inflater.inflate(R.layout.fragment_home, container, false);
 
+
         viewPager = myFragment.findViewById(R.id.viewPager);
         tabLayout = myFragment.findViewById(R.id.tabLayout);
 

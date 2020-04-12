@@ -3,4 +3,10 @@
   <color name="colorPrimary">#23A7D8</color>
   <color name="colorPrimaryDark">#3700B3</color>
   <color name="colorAccent">#03DAC5</color>
+  <color name="White">#FFFFFFFF</color>
+  <color name="White_semitrans">#AAFFFFFF</color>
+
+  <color name="Dark">#FF000000</color>
+  <color name="Dark_semitrans">#AA000000</color>
+  <color name="Dark_lighttrans">#10000000</color>
 </resources>
