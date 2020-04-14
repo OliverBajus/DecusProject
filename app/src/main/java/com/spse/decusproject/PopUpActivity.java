@@ -7,6 +7,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.decus.R;
@@ -15,18 +16,19 @@ import com.example.decus.R;
 public class PopUpActivity extends Activity {
 
     TextView ingredientName, ingredientFunction, ingredientDescription;
-    Button saveButton, cancelButton;
+    Button saveButton;
+    ImageView goback;
     String name, function;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_popup);
+        setContentView(R.layout.ingredient);
         ingredientName = findViewById(R.id.ingredient_name);
         ingredientDescription = findViewById(R.id.ingredient_description);
         ingredientFunction = findViewById(R.id.ingredient_function);
         saveButton = findViewById(R.id.save_button);
-        cancelButton = findViewById(R.id.cancel_button);
+        goback = findViewById(R.id.goBack);
 
         if (getIntent().getExtras() != null) {
             name = getIntent().getStringExtra("NAME");
@@ -59,7 +61,7 @@ public class PopUpActivity extends Activity {
             }
         });
 
-        cancelButton.setOnClickListener(new View.OnClickListener(){
+       goback.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 finish();

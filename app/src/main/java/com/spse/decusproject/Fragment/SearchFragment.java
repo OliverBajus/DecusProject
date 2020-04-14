@@ -32,7 +32,6 @@ public class SearchFragment extends Fragment{
     private View myFragment;
     private SearchView editsearch;
     private ListView list;
-    private ListViewAdapter adapter;
     public static ArrayList<Integer> itemsArrayList = new ArrayList<>();
 
     public SearchFragment() {

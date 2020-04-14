@@ -9,10 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.decus.R;
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class ScanFragment extends Fragment {
 
     public ScanFragment() {

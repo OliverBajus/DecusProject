@@ -1,4 +1,4 @@
-package com.spse.decusproject;
+package com.spse.decusproject.Fragment;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -18,11 +18,13 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.example.decus.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -34,13 +36,17 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.spse.decusproject.Adapter.SectionPagerAdapter;
+import com.spse.decusproject.Login;
+import com.spse.decusproject.Product;
+import com.spse.decusproject.ProductsViewHolder;
 import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+
 
 public class ProfileFragment extends Fragment {
 
@@ -49,8 +55,7 @@ public class ProfileFragment extends Fragment {
     FirebaseFirestore fStore;
     FirebaseUser user;
     String userId;
-    Button addAllergen,addProduct,changeProfileImg;
-    RecyclerView recyclerView;
+    Button changeProfileImg;
     ImageView settingsImg,verifyIcon,profileImage;
 
     DatabaseReference databaseProducts;
@@ -62,8 +67,8 @@ public class ProfileFragment extends Fragment {
 
     Query databaseProductsQuery;
 
-
-
+    ViewPager viewPager;
+    TabLayout tabLayout;
 
 
     @Nullable
@@ -71,7 +76,6 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @androidx.annotation.Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_profile, container, false);
         findViews(view);
-        fillRecyclerView();
 
         if (!user.isEmailVerified()){
             verifyIcon.setVisibility(View.VISIBLE);
@@ -106,39 +110,22 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
-
-    private void fillRecyclerView() {
-
-        options= new FirebaseRecyclerOptions.Builder<Product>().setQuery(databaseProductsQuery,Product.class).build();
-        adapter= new FirebaseRecyclerAdapter<Product, ProductsViewHolder>(options) {
-            @Override
-            protected void onBindViewHolder(@NonNull ProductsViewHolder holder, int position, @NonNull Product model) {
-
-                holder.name.setText(model.getName());
-                holder.brand.setText("Brand: "+model.getBrand());
-                holder.category.setText("Category: "+model.getCategory());
-                holder.date.setText(model.getDate());
-                if (model.getCategory().equals("Moisturizes"))
-                    holder.image.setImageResource(R.drawable.moisturizes);
-
-
-
-            }
-
-            @NonNull
-            @Override
-            public ProductsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.product_list_layout,parent,false);
-                return new ProductsViewHolder(v);
-            }
-        };
-        adapter.startListening();
-        recyclerView.setAdapter(adapter);
-    }
-
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            public void onPageScrollStateChanged(int state) {
+
+            }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            public void onPageSelected(int position) {
+                System.out.println("tu");
+            }
+        });
 
         DocumentReference docRef = fStore.collection("users").document(userId);
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -149,13 +136,6 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        addProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity().getApplicationContext(), PopActivity.class));
-
-            }
-        });
 
         settingsImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,25 +147,18 @@ public class ProfileFragment extends Fragment {
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
 
-
                             case R.id.logout:{
                                 FirebaseAuth.getInstance().signOut();//logout
                                 startActivity(new Intent(getActivity().getApplicationContext(), Login.class));
                                 getActivity().finish();
-                            }
-
-                                return true;
-
+                            }  return true;
 
                             case R.id.quit:{
                                 getActivity().finish();
                                 System.exit(0);
-                            }
-                                return true;
-
+                            } return true;
 
                             case R.id.changeEmail:{
-
                                 final EditText resetEmail = new EditText(v.getContext());
                                 final AlertDialog.Builder passwordResetDialog = new AlertDialog.Builder(v.getContext());
                                 passwordResetDialog.setTitle("Reset email ?");
@@ -234,14 +207,9 @@ public class ProfileFragment extends Fragment {
                                 });
 
                                 passwordResetDialog.create().show();
-
-                            }
-                                return true;
-
+                            } return true;
 
                             case R.id.changePassword:{
-
-
                                     final EditText resetPassword = new EditText(v.getContext());
                                     final AlertDialog.Builder passwordResetDialog = new AlertDialog.Builder(v.getContext());
                                     passwordResetDialog.setTitle("Reset password ?");
@@ -277,18 +245,13 @@ public class ProfileFragment extends Fragment {
 
                                     passwordResetDialog.create().show();
 
-                                }
-                                return true;
-
-
-                            default:
-                                return false;
+                                } return true;
+                            default: return false;
                         }
                     }
                 });
                 popup.inflate(R.menu.settings_menu);
                 popup.show();
-
             }
         });
         changeProfileImg.setOnClickListener(new View.OnClickListener() {
@@ -298,7 +261,6 @@ public class ProfileFragment extends Fragment {
                 startActivityForResult(openGallery,1000);
             }
         });
-
 
     }
 
@@ -310,18 +272,24 @@ public class ProfileFragment extends Fragment {
                 Uri imageUri = data.getData();
 
                 //profileImage.setImageURI(imageUri);
-                
+
                 uploadImageToFirebase(imageUri);
-
-
-
             }
         }
 
     }
 
+    private void setUpViewPager(ViewPager viewPager) {
+        SectionPagerAdapter adapter = new SectionPagerAdapter(getChildFragmentManager());
+
+        adapter.addFragment(new ProductFragment(), "Products");
+        adapter.addFragment(new IngredientFragment(), "Ingredients");
+
+        viewPager.setAdapter(adapter);
+    }
+
     private void uploadImageToFirebase(Uri imageUri) {
-        // uplaod image to firebase storage
+        // upload image to firebase storage
         final StorageReference fileRef = storageReference.child("users/"+fAuth.getCurrentUser().getUid()+"/profile.jpg");
         fileRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -349,23 +317,22 @@ public class ProfileFragment extends Fragment {
         fStore = FirebaseFirestore.getInstance();
         userId = fAuth.getCurrentUser().getUid();
         user=fAuth.getCurrentUser();
-        addAllergen = view.findViewById(R.id.addAllergen);
-        addProduct = view.findViewById(R.id.addProduct);
         databaseProducts = FirebaseDatabase.getInstance().getReference("products");
         databaseProductsQuery = FirebaseDatabase.getInstance().getReference("products")
                 .orderByChild("userID")
                 .equalTo(fAuth.getCurrentUser().getUid());
-        recyclerView = view.findViewById(R.id.recyclerView);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(layoutManager);
         firebaseFirestore=FirebaseFirestore.getInstance();
-        recyclerView.setHasFixedSize(true);
         settingsImg=view.findViewById(R.id.settingsImg);
         verifyIcon=view.findViewById(R.id.verifyIcon);
         verificationTxt=view.findViewById(R.id.verificatioMsg);
         changeProfileImg=view.findViewById(R.id.changeProfileImg);
         profileImage = view.findViewById(R.id.profileImage);
         storageReference = FirebaseStorage.getInstance().getReference();
+
+        viewPager = view.findViewById(R.id.viewPager);
+        setUpViewPager(viewPager);
+        tabLayout = view.findViewById(R.id.tabLayout);
+        tabLayout.setupWithViewPager(viewPager);
     }
 
 

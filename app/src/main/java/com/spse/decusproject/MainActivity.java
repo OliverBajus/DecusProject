@@ -1,27 +1,21 @@
 package com.spse.decusproject;
 
-import android.content.ClipData;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toolbar;
 
 import com.example.decus.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 
 import com.spse.decusproject.Fragment.HomeFragment;
 import com.spse.decusproject.Fragment.LogFragment;
+import com.spse.decusproject.Fragment.ProfileFragment;
 
 public class MainActivity extends AppCompatActivity {
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +31,6 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new HomeFragment()).commit();
         }
-
-
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
@@ -64,6 +56,4 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 }
             };
-
-
 }

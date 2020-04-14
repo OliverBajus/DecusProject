@@ -1,6 +1,5 @@
 package com.spse.decusproject.Fragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
@@ -24,17 +23,14 @@ public class LogFragment extends Fragment  {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_log,container,false);
-
     }
-
-
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
 //        Calendar
-        final HorizontalCalendar calendar = (HorizontalCalendar)getView().findViewById(R.id.hcCalendar);
+        final HorizontalCalendar calendar = getView().findViewById(R.id.hcCalendar);
         Calendar c = Calendar.getInstance();
         c.add(Calendar.DAY_OF_MONTH, -35);
         calendar.setSelected(c.getTime());

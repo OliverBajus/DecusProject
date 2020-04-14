@@ -7,8 +7,7 @@ import java.util.Date;
 public class Product {
     private String name,brand,category,date,userID;
 
-    public Product() {
-    }
+    public Product() {}
 
     public Product(String name, String brand, String category, String date, String userID) {
         this.name = name;

@@ -1,8 +1,6 @@
 package com.spse.decusproject.Fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +9,6 @@ import android.widget.TextView;
 import com.example.decus.R;
 import com.google.android.material.tabs.TabLayout;
 import com.spse.decusproject.Adapter.SectionPagerAdapter;
-import com.spse.decusproject.CosmeticDatabase.CosmeticDatabase;
 
 import org.json.JSONException;
 
@@ -37,7 +34,6 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         myFragment =  inflater.inflate(R.layout.fragment_home, container, false);
 
-
         viewPager = myFragment.findViewById(R.id.viewPager);
         tabLayout = myFragment.findViewById(R.id.tabLayout);
 
@@ -51,9 +47,6 @@ public class HomeFragment extends Fragment {
         return sMyDate;
     }
 
-    //Call onActivity Create method
-
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -64,34 +57,25 @@ public class HomeFragment extends Fragment {
 
         try {
             setUpViewPager(viewPager);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
+        } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
         tabLayout.setupWithViewPager(viewPager);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-
-            }
+            public void onTabSelected(TabLayout.Tab tab) {}
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
+            public void onTabUnselected(TabLayout.Tab tab) {}
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
+            public void onTabReselected(TabLayout.Tab tab) {}
         });
     }
 
     private void setUpViewPager(ViewPager viewPager) throws IOException, JSONException {
         SectionPagerAdapter adapter = new SectionPagerAdapter(getChildFragmentManager());
-
 
         adapter.addFragment(new SearchFragment(), "Search");
         adapter.addFragment(new ScanFragment(), "Scan");

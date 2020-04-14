@@ -25,8 +25,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     Button sendReset;
     ImageView goBack;
 
-
     FirebaseAuth firebaseAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

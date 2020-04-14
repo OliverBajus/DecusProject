@@ -63,7 +63,6 @@ public class OCR extends AppCompatActivity {
         }
         else
         {
-
             // Code for Below 23 API Oriented Device
             // Do next code
         }
@@ -158,8 +157,8 @@ public class OCR extends AppCompatActivity {
 
     public void showPopUp(final String ingrediencie) {
         txtResult = dialog.findViewById(R.id.ingredient_name);
-        ano = dialog.findViewById(R.id.save_button);
-        nie = dialog.findViewById(R.id.cancel_button);
+        //ano = dialog.findViewById(R.id.save_button);
+        //nie = dialog.findViewById(R.id.cancel_button);
 
         txtResult.setText(ingrediencie);
 
