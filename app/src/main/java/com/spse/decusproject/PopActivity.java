@@ -1,17 +1,13 @@
 package com.spse.decusproject;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -22,20 +18,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.decus.R;
-import com.google.android.gms.common.data.BitmapTeleporter;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.DialogFragment;
 
 public class PopActivity extends Activity implements DatePickerDialog.OnDateSetListener {
     EditText productName,productBrand;
@@ -64,7 +53,7 @@ public class PopActivity extends Activity implements DatePickerDialog.OnDateSetL
             fAuth = FirebaseAuth.getInstance();
 
 
-            databaseProducts = FirebaseDatabase.getInstance().getReference("products");
+            databaseProducts = FirebaseDatabase.getInstance().getReference("productsDatabase").child(fAuth.getCurrentUser().getUid());
 
             DisplayMetrics dm= new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getRealMetrics(dm);
@@ -129,12 +118,13 @@ public class PopActivity extends Activity implements DatePickerDialog.OnDateSetL
         String category = spinner.getSelectedItem().toString();
         String productDate=dateText.getText().toString().trim();
 
+
         if (!TextUtils.isEmpty(name)){
             if (!TextUtils.isEmpty(brand)){
                 if (!productDate.contains("Choose expiration date.")){
                         String id=databaseProducts.push().getKey();
-                        Product product = new Product(name,brand,category,date,fAuth.getCurrentUser().getUid());
-
+                        Product product = new Product(name,brand,category,date,id);
+                        System.out.println(product);
                         databaseProducts.child(id).setValue(product);
 
                     Toast.makeText(PopActivity.this,"Product added.",Toast.LENGTH_LONG).show();

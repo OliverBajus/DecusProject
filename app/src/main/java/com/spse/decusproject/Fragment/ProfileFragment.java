@@ -39,7 +39,7 @@ import com.google.firebase.storage.UploadTask;
 import com.spse.decusproject.Adapter.SectionPagerAdapter;
 import com.spse.decusproject.Login;
 import com.spse.decusproject.Product;
-import com.spse.decusproject.ProductsViewHolder;
+import com.spse.decusproject.Fragment.ProductsViewHolder;
 import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;

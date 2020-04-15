@@ -11,6 +11,7 @@
         android:theme="@style/AppTheme">
         <activity android:name="com.spse.decusproject.MainActivity"></activity>
         <activity android:name="com.spse.decusproject.ForgotPasswordActivity" />
+        <activity android:name="com.spse.decusproject.DayRoutinePopUp" android:theme="@style/AppTheme.PopUp"  />
         <activity android:name="com.spse.decusproject.PopActivity" android:theme="@style/AppTheme.PopUp" />
         <activity android:name="com.spse.decusproject.OCR">
             <intent-filter>
