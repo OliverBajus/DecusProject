@@ -10,10 +10,12 @@ import android.widget.TextView;
 
 import com.example.decus.R;
 
-import com.spse.decusproject.Fragment.SearchFragment;
+import com.spse.decusproject.ScannedIngredientsPopUp;
 
 import java.util.ArrayList;
 import java.util.Locale;
+
+import static com.spse.decusproject.ScannedIngredientsPopUp.arrayOfIngredients;
 
 public class ListViewAdapter extends BaseAdapter {
 
@@ -21,13 +23,13 @@ public class ListViewAdapter extends BaseAdapter {
 
     Context mContext;
     LayoutInflater inflater;
-    private ArrayList<Integer> arraylist;
+    private ArrayList<String> arraylist;
 
     public ListViewAdapter(Context context) {
         mContext = context;
         inflater = LayoutInflater.from(mContext);
-        arraylist = new ArrayList<>();
-        arraylist.addAll(SearchFragment.itemsArrayList);
+        arraylist = new ArrayList<String>();
+        arraylist.addAll(arrayOfIngredients);
         System.out.println("zaciatok " + arraylist.size());
     }
 
@@ -37,15 +39,15 @@ public class ListViewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        System.out.println("size: " + SearchFragment.itemsArrayList.size());
+        System.out.println("size: " + arrayOfIngredients.size());
         System.out.println("arraylist size: " + arraylist.size());
-        return SearchFragment.itemsArrayList.size();
+        return ScannedIngredientsPopUp.arrayOfIngredients.size();
 
     }
 
     @Override
-    public Integer getItem(int position) {
-        return SearchFragment.itemsArrayList.get(position).intValue();
+    public String getItem(int position) {
+        return ScannedIngredientsPopUp.arrayOfIngredients.get(position).toString();
     }
 
     @Override
@@ -64,23 +66,23 @@ public class ListViewAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         // Set the results into TextViews
-        holder.name.setText("" + SearchFragment.itemsArrayList.get(position));
+        holder.name.setText("" + ScannedIngredientsPopUp.arrayOfIngredients.get(position));
         return view;
     }
 
     // Filter Class
     public void filter(String charText) {
         charText = charText.toLowerCase(Locale.getDefault());
-        SearchFragment.itemsArrayList.clear();
+        ScannedIngredientsPopUp.arrayOfIngredients.clear();
         Log.d("vsetky", "ahoj");
         if (charText.length() == 0) {
-            SearchFragment.itemsArrayList.addAll(arraylist);
+            ScannedIngredientsPopUp.arrayOfIngredients.addAll(arraylist);
             System.out.println("vsetky");
         } else {
-            for (int wp : arraylist) {
+            for (String wp : arraylist) {
                 String sp = String.valueOf(wp);
                 if (sp.toLowerCase(Locale.getDefault()).contains(charText)) {
-                    SearchFragment.itemsArrayList.add(wp);
+                    ScannedIngredientsPopUp.arrayOfIngredients.add(wp);
 
                 }
             }

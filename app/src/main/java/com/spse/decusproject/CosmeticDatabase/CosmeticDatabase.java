@@ -55,11 +55,6 @@ public class CosmeticDatabase {
             name =  (jsonFields.getString("inci_name"));
             function = (jsonFields.getString("function"));
         }
-
-
-
-        System.out.println("funkcia" + function);
-
     }
 
 }

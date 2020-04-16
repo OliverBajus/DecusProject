@@ -34,7 +34,11 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,7 +50,7 @@ import androidx.core.content.FileProvider;
 
 public class OCR extends AppCompatActivity {
 
-    Button chooseImage;
+    Button chooseImage, searchButton;
     EditText mResultEt;
     ImageView mPreviewIv;
 
@@ -57,6 +61,9 @@ public class OCR extends AppCompatActivity {
 
     String cameraPermission[];
     String storagePermission[];
+    String arrayOfIngredients[];
+    ArrayList<String> arrayListOfIngredients;
+    String ingrediencie;
 
     Uri image_uri;
 
@@ -68,6 +75,7 @@ public class OCR extends AppCompatActivity {
         setContentView(R.layout.activity_ocr);
         
         chooseImage = findViewById(R.id.choose_image_button);
+        searchButton = findViewById(R.id.search);
         mPreviewIv = findViewById(R.id.imageIv);
         mResultEt = findViewById(R.id.resultEt);
 
@@ -81,6 +89,28 @@ public class OCR extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showImageImportDialog();
+            }
+        });
+
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ingrediencie = mResultEt.getText().toString();
+                if (ingrediencie.matches("")) {
+                    Toast.makeText(OCR.this, "Non ingredients found", Toast.LENGTH_SHORT).show();
+                } else {
+                    System.out.println(ingrediencie);
+                    arrayOfIngredients = ingrediencie.split("[,\\|]");
+                    for (int i = 0; i <arrayOfIngredients.length; i++){
+                        arrayOfIngredients[i].trim();
+                        System.out.println(arrayOfIngredients[i]);
+                    }
+                    arrayListOfIngredients =  new ArrayList<>(Arrays.asList(arrayOfIngredients));
+                    Intent intent = new Intent(OCR.this, ScannedIngredientsPopUp.class);
+                    intent.putExtra("ARRAYLIST", arrayListOfIngredients);
+                    startActivity(intent);
+
+                }
             }
         });
     }
