@@ -1,88 +1,208 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    tools:context="com.spse.decusproject.OCR">
+    android:background="@drawable/wallper_gradient"
+    tools:context="com.spse.decusproject.Register">
+
+    <ImageView
+        android:id="@+id/goBack"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:srcCompat="?attr/actionModeCloseDrawable"
+        tools:layout_editor_absoluteX="10dp"
+        tools:layout_editor_absoluteY="10dp"
+        android:layout_margin="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+
+    <TextView
+        android:id="@+id/TextView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="60dp"
+        android:fontFamily="@font/montserrat"
+        android:lineSpacingExtra="36sp"
+        android:text="Welcome to "
+        android:textColor="#FFFFFF"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:fontFamily="@font/montserrat"
+        android:text="Decus scan feature"
+        android:textColor="#F7F7F8"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TextView4" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:layout_marginTop="160dp"
+        android:background="@color/backgorund"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
+
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="30dp"
+                android:fontFamily="@font/montserrat"
+                android:text="Choose or take picture of product ingredients at the back of the product"
+                android:textAlignment="viewStart"
+                android:textColor="#505050" />
 
             <Button
                 android:id="@+id/choose_image_button"
                 android:layout_width="355dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="25dp"
                 android:layout_marginEnd="30dp"
-                android:background="@drawable/login_register_btn"
+                android:background="@drawable/create_login_btn"
                 android:fontFamily="@font/montserrat"
-                android:text="Choose image"
-                android:textColor="#FFFFFF"
+                android:text="Choose / take image"
+                android:textColor="#575757"
                 android:textSize="13sp"
                 android:textStyle="bold" />
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="28dp"
+                android:layout_marginTop="10dp"
                 app:cardBackgroundColor="#fff"
-                app:cardUseCompatPadding="true"
                 app:cardCornerRadius="3dp"
-                app:cardElevation="3dp">
+                app:cardElevation="3dp"
+                app:cardUseCompatPadding="true"
+            >
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="5dp">
+
                     <TextView
-                        android:text="Result"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="20sp"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-                    <EditText
-                        android:id="@+id/resultEt"
-                        android:hint=""
-                        android:autoLink="all"
-                        android:background="@null"
-                        android:padding="5dp"
-                        android:textColor="#000"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Image preview"
+                        android:textColor="#000000"
+                        android:textSize="14dp"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:id="@+id/line3"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardBackgroundColor="#fff"
-                app:cardUseCompatPadding="true"
-                app:cardCornerRadius="3dp"
-                app:cardElevation="3dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="5dp">
-                    <TextView
-                        android:text="Image Preview"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="20sp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="1dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="30dp"
+                        android:layout_marginTop="5dp"
+                        android:background="#838383"
+                        android:backgroundTint="#838383" />
+
                     <ImageView
                         android:id="@+id/imageIv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:maxHeight="250dp"/>
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:maxHeight="250dp"
+                        android:layout_gravity="center"
+                        />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="28dp"
+                    android:layout_marginTop="10dp"
+                    app:cardBackgroundColor="#fff"
+                    app:cardCornerRadius="3dp"
+                    app:cardElevation="3dp"
+                    app:cardUseCompatPadding="true"
+               >
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Result"
+                        android:textColor="#000000"
+                        android:textSize="14dp"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:id="@+id/line2"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="30dp"
+                        android:layout_marginTop="5dp"
+                        android:background="#838383"
+                        android:backgroundTint="#838383" />
+
+                    <EditText
+                        android:id="@+id/resultEt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:autoLink="all"
+                        android:background="@null"
+                        android:fontFamily="@font/montserrat"
+                        android:hint=""
+                        android:padding="5dp"
+                        android:textColor="#000" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
         </LinearLayout>
     </ScrollView>
-</RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

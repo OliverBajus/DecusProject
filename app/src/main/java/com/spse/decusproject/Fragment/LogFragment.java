@@ -192,15 +192,12 @@ public class LogFragment extends Fragment  {
         calendar.setSelected(c.getTime());
         Date d = new Date();
         calendar.setSelected(d);
-        SimpleDateFormat formatter3=new SimpleDateFormat("E MMM dd hh:mm:ss ZZZ yyyy");
-        Date date = new Date();
-        String dat=formatter3.format(date);
         productListMorning= new ArrayList<>();
         productListDay = new ArrayList<>();
         productListEvening = new ArrayList<>();
         dailyRoutines= new ArrayList<>();
         databaseProducts = FirebaseDatabase.getInstance().getReference("productsDatabase").child(fAuth.getCurrentUser().getUid());
-        databaseRoutine = FirebaseDatabase.getInstance().getReference("routineDatabase").child(fAuth.getCurrentUser().getUid()).child(dat);
+        databaseRoutine = FirebaseDatabase.getInstance().getReference("routineDatabase").child(fAuth.getCurrentUser().getUid()).child(calendar.getSelected().toString());
 
 
     }

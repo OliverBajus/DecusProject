@@ -56,7 +56,7 @@
                     android:id="@+id/morningBtn"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:background="@drawable/ic_close_button_foreground"
+                    android:background="@drawable/ic_plus_foreground"
                     app:layout_constraintStart_toEndOf="@id/morningTextView"
                     app:layout_constraintTop_toTopOf="@id/morningTextView" />
 
@@ -89,7 +89,7 @@
                     android:id="@+id/dayBtn"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:background="@drawable/ic_close_button_foreground"
+                    android:background="@drawable/ic_plus_foreground"
                     app:layout_constraintStart_toEndOf="@id/dayTextView"
                     app:layout_constraintTop_toTopOf="@id/dayTextView" />
 
@@ -121,7 +121,7 @@
                     android:id="@+id/eveningBtn"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:background="@drawable/ic_close_button_foreground"
+                    android:background="@drawable/ic_plus_foreground"
                     app:layout_constraintStart_toEndOf="@id/eveningTextView"
                     app:layout_constraintTop_toTopOf="@id/eveningTextView" />
 
