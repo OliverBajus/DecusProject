@@ -1,20 +1,18 @@
 package com.spse.decusproject;
 
-import android.content.Intent;
-
-import java.util.Date;
 
 public class Product {
-    private String name,brand,category,date,userID;
+    private String name,brand,category,date, productID;
+
 
     public Product() {}
 
-    public Product(String name, String brand, String category, String date, String userID) {
+    public Product(String name, String brand, String category, String date, String productID) {
         this.name = name;
         this.brand = brand;
         this.category = category;
         this.date = date;
-        this.userID = userID;
+        this.productID = productID;
     }
 
     public  String getName() {
@@ -33,7 +31,13 @@ public class Product {
         return date;
     }
 
-    public String getUserID() {
-        return userID;
+    public String getProductID() {
+        return productID;
+    }
+
+    @Override
+    public String toString() {
+
+        return name+ " ("+brand+")" ;
     }
 }

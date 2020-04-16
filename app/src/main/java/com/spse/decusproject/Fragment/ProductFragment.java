@@ -23,7 +23,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.spse.decusproject.PopActivity;
 import com.spse.decusproject.Product;
-import com.spse.decusproject.ProductsViewHolder;
+import com.spse.decusproject.Fragment.ProductsViewHolder;
 
 public class ProductFragment extends Fragment {
 
@@ -77,8 +77,7 @@ public class ProductFragment extends Fragment {
                 holder.getBrand().setText("Brand: "+model.getBrand());
                 holder.getCategory().setText("Category: "+model.getCategory());
                 holder.getDate().setText(model.getDate());
-                if (model.getCategory().equals("Moisturizes"))
-                    holder.getImage().setImageResource(R.drawable.moisturizes);
+                holder.getImage().setImageResource(R.drawable.moisturizes);
             }
 
             @NonNull
@@ -96,15 +95,13 @@ public class ProductFragment extends Fragment {
         addProduct = view.findViewById(R.id.addProduct);
 
         recyclerView = view.findViewById(R.id.recyclerView);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
         fAuth = FirebaseAuth.getInstance();
         firebaseFirestore= FirebaseFirestore.getInstance();
+        databaseProductsQuery =  FirebaseDatabase.getInstance().getReference("productsDatabase").child(fAuth.getCurrentUser().getUid());
 
-        databaseProductsQuery = FirebaseDatabase.getInstance().getReference("products")
-                .orderByChild("userID")
-                .equalTo(fAuth.getCurrentUser().getUid());
     }
 }
