@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.decus">
 
     <application
@@ -9,9 +8,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.spse.decusproject.MainActivity"></activity>
+        <activity android:name="com.spse.decusproject.ScannedIngredients"></activity>
+        <activity android:name="com.spse.decusproject.MainActivity" />
         <activity android:name="com.spse.decusproject.ForgotPasswordActivity" />
-        <activity android:name="com.spse.decusproject.PopActivity" android:theme="@style/AppTheme.PopUp" />
+        <activity
+            android:name="com.spse.decusproject.PopActivity"
+            android:theme="@style/AppTheme.PopUp" />
         <activity android:name="com.spse.decusproject.OCR">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,15 +36,37 @@
             android:theme="@style/AppTheme.PopUp" />
 
         <meta-data
-            android:name="com.google.firebase.ml.vision.DEPENDENCIES"
-            android:value="ocr" />
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.gms.vision.DEPENDENCIES"
+            android:value="ocr"/>
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
     </application>
+
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true"/>
 
 </manifest>

@@ -1,14 +1,20 @@
 package com.spse.decusproject.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.example.decus.R;
 import com.google.android.material.tabs.TabLayout;
 import com.spse.decusproject.Adapter.SectionPagerAdapter;
+import com.spse.decusproject.CosmeticDatabase.CosmeticDatabase;
+import com.spse.decusproject.OCR;
+import com.spse.decusproject.PopUpActivity;
 
 import org.json.JSONException;
 
@@ -23,20 +29,15 @@ import androidx.viewpager.widget.ViewPager;
 public class HomeFragment extends Fragment {
 
     TextView currentDate;
-
     View myFragment;
-    ViewPager viewPager;
-    TabLayout tabLayout;
+    Button scanButton;
+
+    private SearchView editsearch;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         myFragment =  inflater.inflate(R.layout.fragment_home, container, false);
-
-        viewPager = myFragment.findViewById(R.id.viewPager);
-        tabLayout = myFragment.findViewById(R.id.tabLayout);
-
         return myFragment;
     }
 
@@ -52,34 +53,43 @@ public class HomeFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
 
-        currentDate = (TextView) myFragment.findViewById(R.id.current_date);
+        currentDate = myFragment.findViewById(R.id.current_date);
         currentDate.setText(getDate());
 
-        try {
-            setUpViewPager(viewPager);
-        } catch (IOException | JSONException e) {
-            e.printStackTrace();
-        }
-        tabLayout.setupWithViewPager(viewPager);
+        editsearch = myFragment.findViewById(R.id.search);
+        scanButton = myFragment.findViewById(R.id.scan_button);
 
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {}
+        editsearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {}
+            public boolean onQueryTextSubmit(String s) {
+                CosmeticDatabase database = null;
+                try {
+                    database = new CosmeticDatabase(s);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                System.out.println(database.getName());
+                System.out.println(database.getFunction());
+                Intent intent = new Intent(getActivity(), PopUpActivity.class);
+                intent.putExtra("NAME", database.getName());
+                intent.putExtra("FUNCTION", database.getFunction());
+                startActivity(intent);
+                return false;
+            }
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {}
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
         });
-    }
 
-    private void setUpViewPager(ViewPager viewPager) throws IOException, JSONException {
-        SectionPagerAdapter adapter = new SectionPagerAdapter(getChildFragmentManager());
-
-        adapter.addFragment(new SearchFragment(), "Search");
-        adapter.addFragment(new ScanFragment(), "Scan");
-
-        viewPager.setAdapter(adapter);
+        scanButton.setOnClickListener(new Button.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), OCR.class);
+                startActivity(intent);
+            } });
     }
 }

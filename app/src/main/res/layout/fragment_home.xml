@@ -1,44 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.spse.decusproject.Fragment.HomeFragment">
+    android:background="@color/backgorund"
+    tools:context="com.spse.decusproject.Fragment.HomeFragment">>
 
     <LinearLayout
-        android:orientation="vertical"
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+
+        <SearchView
+            android:id="@+id/search"
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="0dp"
+
+            android:iconifiedByDefault="false"
+            android:queryHint="Search ">
+
+            <requestFocus />
+        </SearchView>
 
         <TextView
             android:id="@+id/current_date"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textAlignment="center"
-            android:textSize="30sp"/>
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/AppBarLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/white">
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
+            android:textSize="30sp" />
 
 
     </LinearLayout>
 
-</RelativeLayout>
+    <Button
+        android:id="@+id/scan_button"
+        android:layout_width="326dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="29dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginEnd="56dp"
+        android:background="@drawable/login_register_btn"
+        android:fontFamily="@font/montserrat"
+        android:text="Scan"
+        android:textColor="#FFFFFF"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

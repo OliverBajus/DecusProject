@@ -1,236 +1,251 @@
 package com.spse.decusproject;
 
 import android.Manifest;
-import android.app.Dialog;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.PersistableBundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.util.SparseArray;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.decus.BuildConfig;
 import com.example.decus.R;
-import com.google.android.gms.vision.CameraSource;
-import com.google.android.gms.vision.Detector;
+import com.google.android.gms.vision.Frame;
+import com.google.android.gms.vision.text.Text;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
-import com.spse.decusproject.Fragment.HomeFragment;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
-import java.io.IOException;
-import java.util.regex.Pattern;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Objects;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 public class OCR extends AppCompatActivity {
 
-    SurfaceView camera;
-    TextView textView;
-    CameraSource cameraSource;
-    final int RequestCameraPermissionID = 1001;
-    String result = "nic";
-    SparseArray<TextBlock> items;
-    Dialog dialog;
-    TextView txtResult;
-    Button ano, nie;
+    Button chooseImage;
+    EditText mResultEt;
+    ImageView mPreviewIv;
 
-    private static final int PERMISSION_REQUEST_CODE = 1;
+    private static final int CAMERA_REQUEST_CODE = 200;
+    private static final int STORAGE_REQUEST_CODE = 400;
+    private static final int IMAGE_PICK_GALLERY_CODE = 1000;
+    private static final int IMAGE_PICK_CAMERA_CODE = 1001;
 
-    TextRecognizer textRecognizer;
+    String cameraPermission[];
+    String storagePermission[];
+
+    Uri image_uri;
+
+
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.product_list_layout);
+        setContentView(R.layout.activity_ocr);
+        
+        chooseImage = findViewById(R.id.choose_image_button);
+        mPreviewIv = findViewById(R.id.imageIv);
+        mResultEt = findViewById(R.id.resultEt);
 
-        if (Build.VERSION.SDK_INT >= 23)
-        {
-            if (checkPermission())
-            {
-                // Code for above or equal 23 API Oriented Device
-                // Your Permission granted already .Do next code
-            } else {
-                requestPermission(); // Code for permission
-            }
-        }
-        else
-        {
-            // Code for Below 23 API Oriented Device
-            // Do next code
-        }
+        //camera permission
+        cameraPermission = new String[]{Manifest.permission.CAMERA,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        //storage permission
+        storagePermission = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
-        dialog = new Dialog(this);
-        dialog.setContentView(R.layout.activity_pop);
-        camera = findViewById(R.id.surfaceView);
-        textView = findViewById(R.id.text_view);
-
-        textRecognizer = new TextRecognizer.Builder(getApplicationContext()).build();
-        if (!textRecognizer.isOperational()) {
-            Log.w("OCR", "Detector dependencies are not yet available");
-        } else {
-            cameraSource = new CameraSource.Builder(getApplicationContext(), textRecognizer)
-                    .setFacing(CameraSource.CAMERA_FACING_BACK)
-                    .setRequestedPreviewSize(1280, 1024)
-                    .setRequestedFps(2.0f)
-                    .setAutoFocusEnabled(true)
-                    .build();
-            camera.getHolder().addCallback(new SurfaceHolder.Callback() {
-                @Override
-                public void surfaceCreated(SurfaceHolder holder) {
-
-                    try {
-                        if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                            ActivityCompat.requestPermissions(OCR.this,
-                                    new String[]{Manifest.permission.CAMERA},
-                                    RequestCameraPermissionID);
-                            return;
-                        }
-                        cameraSource.start(camera.getHolder());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                }
-
-                @Override
-                public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-                }
-
-                @Override
-                public void surfaceDestroyed(SurfaceHolder holder) {
-                    cameraSource.stop();
-                }
-            });
-            startRecognizing();
-        }
-
-    }
-
-    private void startRecognizing() {
-        textRecognizer.setProcessor(new Detector.Processor<TextBlock>() {
-
-            @Override
-            public void release() {
-            }
-
-            @Override
-            public void receiveDetections(Detector.Detections<TextBlock> detections) {
-                SparseArray<TextBlock> items = detections.getDetectedItems();
-                if (!dialog.isShowing() && items.size() > 0) {
-
-                    StringBuilder stringBuilder = new StringBuilder();
-                    for (int i = 0; i < items.size(); i++) {
-                        TextBlock item = items.valueAt(i);
-                        stringBuilder.append(item.getValue());
-                        stringBuilder.append("\n");
-                    }
-                    textView.setText(stringBuilder);
-                    final String ingrediencie = validateResult(items);
-                    Log.d("vysledok", "vysledok: " + ingrediencie);
-                    if (result != null) {
-                        textView.post(
-                                new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        showPopUp(result);
-                                    }
-                                }
-                        );
-                    }
-
-                }
-            }
-        });
-    }
-
-    private void stopRecognizing() {
-        textRecognizer.release();
-    }
-
-    public void showPopUp(final String ingrediencie) {
-        txtResult = dialog.findViewById(R.id.ingredient_name);
-        //ano = dialog.findViewById(R.id.save_button);
-        //nie = dialog.findViewById(R.id.cancel_button);
-
-        txtResult.setText(ingrediencie);
-
-        ano.setOnClickListener(new View.OnClickListener() {
+        chooseImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(OCR.this, HomeFragment.class);
-                intent.putExtra("ingrediencie",ingrediencie);
-                startActivity(intent);
+                showImageImportDialog();
             }
         });
+    }
 
-        nie.setOnClickListener(new View.OnClickListener() {
+    private void showImageImportDialog() {
+
+        String[] items = {"Camera", "Gallery"};
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("Select Image");
+        dialog.setItems(items, new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if (dialog != null) {
-                    dialog.dismiss();
+            public void onClick(DialogInterface dialog, int which) {
+                if(which == 0){
+                    //camera option clicked
+
+                    if (!checkCameraPermission()) {
+                        // camera permission not allowed, request it
+                        requestCameraPermission();
+                    } else{
+                        //permission allowed, take picture
+                        pickCamera();
+                    }
+                }
+                if(which == 1){
+                    //gallery option clicked
+                    if (!checkStoragePermission()) {
+                        // storage permission not allowed, request it
+                        requestStoragePermission();
+                    } else{
+                        //permission allowed, choose picture
+                        pickGallery();
+                    }
                 }
             }
         });
-        // dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.show();
+        dialog.create().show();
     }
 
-    public String validateResult(SparseArray<TextBlock> items) {
-        for (int i = 0; i < items.size(); ++i) {
-            String[] itemValues = items.valueAt(i).getValue().trim().split("\\s+");
-            for (String item : itemValues) {
-                Log.d("item", "item: " + item);
-                if (Pattern.matches("[0-9]{3}", item)) {
-                    return item;
-                }
-            }
-        }
-        return null;
+    private void pickGallery() {
+        // intent to pick image from gallery
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        //sent intent type to image
+        intent.setType("image/*");
+        startActivityForResult(intent, IMAGE_PICK_GALLERY_CODE);
     }
 
-    private boolean checkPermission() {
-        int result = ContextCompat.checkSelfPermission(OCR.this, Manifest.permission.CAMERA);
-        if (result == PackageManager.PERMISSION_GRANTED) {
-            return true;
-        } else {
-            return false;
-        }
+    private void pickCamera() {
+        //intent to take image from camera, it will be saved to storage to get higher quality image
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE, "NewPic"); // title of the picture
+        values.put(MediaStore.Images.Media.DESCRIPTION, "Image to text"); // desc
+        image_uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, image_uri);
+        startActivityForResult(cameraIntent, IMAGE_PICK_CAMERA_CODE);
     }
 
-    private void requestPermission() {
-
-        if (ActivityCompat.shouldShowRequestPermissionRationale(OCR.this, Manifest.permission.CAMERA)) {
-            Toast.makeText(OCR.this, "Write External Storage permission allows us to do store images. Please allow this permission in App Settings.", Toast.LENGTH_LONG).show();
-        } else {
-            ActivityCompat.requestPermissions(OCR.this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CODE);
-        }
+    private void requestStoragePermission() {
+        ActivityCompat.requestPermissions(this, storagePermission, STORAGE_REQUEST_CODE);
     }
 
+    private boolean checkStoragePermission() {
+        boolean result = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
+        return result;
+    }
+
+    private void requestCameraPermission() {
+        ActivityCompat.requestPermissions(this, cameraPermission, CAMERA_REQUEST_CODE);
+    }
+
+    private boolean checkCameraPermission() {
+        boolean result = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA) == (PackageManager.PERMISSION_GRANTED);
+        boolean result1 = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == (PackageManager.PERMISSION_GRANTED);
+        return result && result1;
+    }
+
+    //handle permission result
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_REQUEST_CODE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Log.e("value", "Permission Granted, Now you can use local drive .");
-                } else {
-                    Log.e("value", "Permission Denied, You cannot use local drive .");
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case CAMERA_REQUEST_CODE:
+                if (grantResults.length > 0){
+                    boolean cameraAccepted = grantResults[0] ==
+                            PackageManager.PERMISSION_GRANTED;
+                    boolean writeStorageAccepted = grantResults[0] ==
+                            PackageManager.PERMISSION_GRANTED;
+                    if (cameraAccepted && writeStorageAccepted) {
+                        pickCamera();
+                    } else{
+                        Toast.makeText(this, "permission denied", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            case STORAGE_REQUEST_CODE:
+                if (grantResults.length > 0){
+                    boolean writeStorageAccepted = grantResults[0] ==
+                            PackageManager.PERMISSION_GRANTED;
+                    if (writeStorageAccepted) {
+                        pickGallery();
+                    } else{
+                        Toast.makeText(this, "permission denied", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 break;
+
         }
     }
 
+    //handle image result
+
 
     @Override
-    protected void onDestroy() {
-        stopRecognizing();
-        super.onDestroy();
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            if (requestCode == IMAGE_PICK_GALLERY_CODE) {
+                //got image from gallery now crop it
+                CropImage.activity(data.getData())
+                        .setGuidelines(CropImageView.Guidelines.ON)
+                        .start(this);
+            }
+            if (requestCode == IMAGE_PICK_CAMERA_CODE) {
+                //got image from camera now crop it
+                CropImage.activity(image_uri)
+                        .setGuidelines(CropImageView.Guidelines.ON)
+                        .start(this);
+            }
+        }
+        //get cropped image
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK){
+                Uri resultUri = result.getUri();
+                mPreviewIv.setImageURI(resultUri);
+
+                //get drawable bitmap
+                BitmapDrawable bitmapDrawable = (BitmapDrawable) mPreviewIv.getDrawable();
+                Bitmap bitmap = bitmapDrawable.getBitmap();
+
+                TextRecognizer recognizer = new TextRecognizer.Builder(getApplicationContext()).build();
+
+                if (!recognizer.isOperational()){
+                    Toast.makeText(this, "Error", Toast.LENGTH_SHORT).show();;
+                }else{
+                    Frame frame = new Frame.Builder().setBitmap(bitmap).build();
+                    SparseArray<TextBlock> items = recognizer.detect(frame);
+                    StringBuilder sb = new StringBuilder();
+                    // get text from sb untill there is no text
+                    for (int i = 0; i < items.size(); i++){
+                        TextBlock myItem = items.valueAt(i);
+                        sb.append(myItem.getValue());
+                        sb.append("\n");
+                    }
+                    //set text to edit text
+                    mResultEt.setText(sb.toString());
+                }
+            }
+            else if(resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE){
+                //showing error
+                Exception error = result.getError();
+                Toast.makeText(this, ""+error, Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
