@@ -5,46 +5,27 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.decus.R;
-import com.firebase.ui.database.FirebaseListOptions;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.spse.decusproject.Fragment.ProductsViewHolder;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.zip.ZipEntry;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class DayRoutinePopUp extends Activity implements FirebaseLoadDone {
 
@@ -62,7 +43,7 @@ public class DayRoutinePopUp extends Activity implements FirebaseLoadDone {
     List<Product> products;
     Product choosenProdcut;
     boolean isFirstTimeClicked= true;
-    Date date = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,19 +77,6 @@ public class DayRoutinePopUp extends Activity implements FirebaseLoadDone {
 
             }
         });
-
-
-
-       // SimpleDateFormat formatter3=new SimpleDateFormat("E MMM dd hh:mm:ss ZZZ yyyy");
-
-       // try {
-      //      date=formatter3.parse(dateIntent);
-      //  } catch (ParseException e) {
-      //      e.printStackTrace();
-      //  }
-     //   chosenProduct.setText(date+","+dateIntent);
-
-
 
         DisplayMetrics dm= new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getRealMetrics(dm);

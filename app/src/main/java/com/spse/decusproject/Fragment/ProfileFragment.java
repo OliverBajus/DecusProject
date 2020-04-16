@@ -46,6 +46,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class ProfileFragment extends Fragment {
@@ -56,7 +57,8 @@ public class ProfileFragment extends Fragment {
     FirebaseUser user;
     String userId;
     Button changeProfileImg;
-    ImageView settingsImg,verifyIcon,profileImage;
+    ImageView settingsImg,verifyIcon;
+    CircleImageView profileImage;
 
     DatabaseReference databaseProducts;
     FirebaseFirestore firebaseFirestore;

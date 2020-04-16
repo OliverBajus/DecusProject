@@ -52,7 +52,7 @@ public class OCR extends AppCompatActivity {
 
     Button chooseImage, searchButton;
     EditText mResultEt;
-    ImageView mPreviewIv;
+    ImageView mPreviewIv,goBack;
 
     private static final int CAMERA_REQUEST_CODE = 200;
     private static final int STORAGE_REQUEST_CODE = 400;
@@ -78,6 +78,7 @@ public class OCR extends AppCompatActivity {
         searchButton = findViewById(R.id.search);
         mPreviewIv = findViewById(R.id.imageIv);
         mResultEt = findViewById(R.id.resultEt);
+        goBack = findViewById(R.id.goBack);
 
         //camera permission
         cameraPermission = new String[]{Manifest.permission.CAMERA,
@@ -111,6 +112,13 @@ public class OCR extends AppCompatActivity {
                     startActivity(intent);
 
                 }
+            }
+        });
+
+        goBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),MainActivity.class));
             }
         });
     }
