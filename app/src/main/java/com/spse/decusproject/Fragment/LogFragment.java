@@ -2,14 +2,11 @@ package com.spse.decusproject.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.decus.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,7 +20,6 @@ import com.spse.decusproject.DailyRoutine;
 import com.spse.decusproject.DayRoutinePopUp;
 import com.spse.decusproject.Product;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -57,8 +53,8 @@ public class LogFragment extends Fragment  {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
 //        Calendar
 
@@ -68,8 +64,7 @@ public class LogFragment extends Fragment  {
                 Calendar c = Calendar.getInstance();
                 c.setTime(date);
                 databaseRoutine = FirebaseDatabase.getInstance().getReference("routineDatabase").child(fAuth.getCurrentUser().getUid()).child(date.toString());
-                setListViewdata();
-
+                setListViewData();
             }
 
             @Override
@@ -103,79 +98,68 @@ public class LogFragment extends Fragment  {
         eveningBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent=new Intent(getActivity(),DayRoutinePopUp.class);
                 intent.putExtra("dayPart","evening");
-                intent.putExtra("date",calendar.getSelected().toString());
+                intent.putExtra("date", calendar.getSelected().toString());
                 startActivity(intent);
-
             }
         });
-
-
-
-
     }
 
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        setListViewdata();
-
-
-    }
-
-    private void setListViewdata() {
-        databaseRoutine.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                dailyRoutines.clear();
-                for (DataSnapshot productSnapshot: dataSnapshot.getChildren()){
-                    DailyRoutine dailyRoutine=productSnapshot.getValue(DailyRoutine.class);
-                    dailyRoutines.add(dailyRoutine);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        databaseProducts.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                productListMorning.clear();
-                productListDay.clear();
-                productListEvening.clear();
-                for (DataSnapshot productSnapshot: dataSnapshot.getChildren()){
-                    for (DailyRoutine dailyRoutine:dailyRoutines){
-                        String productID=dailyRoutine.getProductID();
-                        String dayPart=dailyRoutine.getDayPart();
-                        Product product=productSnapshot.getValue(Product.class);
-                        if (product.getProductID().trim().equals(productID.trim())){
-                            if (dayPart.equals("morning")) productListMorning.add(product);
-                            else if (dayPart.equals("day")) productListDay.add(product);
-                            else if (dayPart.equals("evening")) productListEvening.add(product);
-                        }
+    private void setListViewData() {
+        if (getActivity() != null) {
+            databaseRoutine.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    dailyRoutines.clear();
+                    for (DataSnapshot productSnapshot : dataSnapshot.getChildren()) {
+                        DailyRoutine dailyRoutine = productSnapshot.getValue(DailyRoutine.class);
+                        dailyRoutines.add(dailyRoutine);
                     }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
                 }
-                ProductsArrayListAdapter adapterMorning = new ProductsArrayListAdapter(getActivity(),productListMorning);
-                ProductsArrayListAdapter adapterDay = new ProductsArrayListAdapter(getActivity(),productListDay);
-                ProductsArrayListAdapter adapterEvening = new ProductsArrayListAdapter(getActivity(),productListEvening);
-                listViewMorning.setAdapter(adapterMorning);
-                listViewDay.setAdapter(adapterDay);
-                listViewEvening.setAdapter(adapterEvening);
-            }
+            });
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            databaseProducts.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    productListMorning.clear();
+                    productListDay.clear();
+                    productListEvening.clear();
+                    for (DataSnapshot productSnapshot : dataSnapshot.getChildren()) {
+                        for (DailyRoutine dailyRoutine : dailyRoutines) {
+                            String productID = dailyRoutine.getProductID();
+                            String dayPart = dailyRoutine.getDayPart();
+                            Product product = productSnapshot.getValue(Product.class);
+                            if (product.getProductID().trim().equals(productID.trim())) {
+                                if (dayPart.equals("morning")) productListMorning.add(product);
+                                else if (dayPart.equals("day")) productListDay.add(product);
+                                else if (dayPart.equals("evening")) productListEvening.add(product);
+                            }
+                        }
 
-            }
-        });
+                    }
+                    if (getActivity() != null) {
+                        ProductsArrayListAdapter adapterMorning = new ProductsArrayListAdapter(getActivity(), productListMorning);
+                        ProductsArrayListAdapter adapterDay = new ProductsArrayListAdapter(getActivity(), productListDay);
+                        ProductsArrayListAdapter adapterEvening = new ProductsArrayListAdapter(getActivity(), productListEvening);
+                        listViewMorning.setAdapter(adapterMorning);
+                        listViewDay.setAdapter(adapterDay);
+                        listViewEvening.setAdapter(adapterEvening);
+                        setListViewData();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
     }
 
     private void findViews(View view) {
@@ -187,11 +171,13 @@ public class LogFragment extends Fragment  {
         listViewMorning = view.findViewById(R.id.listViewMorning);
         listViewDay = view.findViewById(R.id.listViewDay);
         listViewEvening = view.findViewById(R.id.listViewEvening);
+
         Calendar c = Calendar.getInstance();
         c.add(Calendar.DAY_OF_MONTH, -35);
         calendar.setSelected(c.getTime());
         Date d = new Date();
         calendar.setSelected(d);
+
         productListMorning= new ArrayList<>();
         productListDay = new ArrayList<>();
         productListEvening = new ArrayList<>();

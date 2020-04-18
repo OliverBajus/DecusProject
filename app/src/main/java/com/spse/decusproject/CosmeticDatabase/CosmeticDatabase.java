@@ -13,7 +13,7 @@ import java.net.URL;
 public class CosmeticDatabase {
 
     private String name;
-    private String function;
+    private String function = null;
     private JSONArray fields;
 
     public String getName() {
