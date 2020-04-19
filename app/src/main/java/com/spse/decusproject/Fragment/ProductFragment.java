@@ -49,7 +49,6 @@ public class ProductFragment extends Fragment {
         findViews(view);
         fillRecyclerView();
 
-        System.out.println("Som v produktoch");
 
         return view;
     }

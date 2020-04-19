@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setItemBackground(getDrawable(R.color.backgorund));
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
 
