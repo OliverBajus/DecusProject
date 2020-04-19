@@ -70,7 +70,6 @@
                 android:id="@+id/productImageView"
                 android:layout_width="110dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/moisturizes"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
 
