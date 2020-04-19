@@ -136,10 +136,15 @@ public class HomeFragment extends Fragment {
                 }
                 System.out.println(database.getName());
                 System.out.println(database.getFunction());
-                Intent intent = new Intent(getActivity(), PopUpActivity.class);
-                intent.putExtra("NAME", database.getName());
-                intent.putExtra("FUNCTION", database.getFunction());
-                startActivity(intent);
+                if(database.getFunction() != null ){
+                    Intent intent = new Intent(getActivity(), PopUpActivity.class);
+                    intent.putExtra("NAME", database.getName());
+                    intent.putExtra("FUNCTION", database.getFunction());
+                    startActivity(intent);
+                    return false;
+                }else {
+                    Toast.makeText(getActivity(), "Ingredient not found", Toast.LENGTH_SHORT).show();
+                }
                 return false;
             }
 

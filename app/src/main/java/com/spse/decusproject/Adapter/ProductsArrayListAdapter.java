@@ -33,7 +33,7 @@ public class ProductsArrayListAdapter extends ArrayAdapter<Product> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater layoutInflater=context.getLayoutInflater();
 
-        View listItemView=layoutInflater.inflate(R.layout.list_view_item_products,null,true);
+        View listItemView = layoutInflater.inflate(R.layout.list_view_item_products,null,true);
 
         TextView name = (TextView) listItemView.findViewById(R.id.tvName);
         TextView brand = (TextView) listItemView.findViewById(R.id.tvBrand);

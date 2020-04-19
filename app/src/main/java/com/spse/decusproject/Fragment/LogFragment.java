@@ -1,17 +1,12 @@
 package com.spse.decusproject.Fragment;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.decus.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,7 +20,6 @@ import com.spse.decusproject.DailyRoutine;
 import com.spse.decusproject.DayRoutinePopUp;
 import com.spse.decusproject.Product;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -54,19 +48,13 @@ public class LogFragment extends Fragment  {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view =  inflater.inflate(R.layout.fragment_log,container,false);
-        productListMorning= new ArrayList<>();
-        productListDay = new ArrayList<>();
-        productListEvening = new ArrayList<>();
-        dailyRoutines= new ArrayList<>();
         findViews(view);
-        setListViewdata();
-
         return view;
     }
 
     @Override
-    public void onViewCreated(final View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
 //        Calendar
 
@@ -75,8 +63,8 @@ public class LogFragment extends Fragment  {
             public void selectChanged(Date date) {
                 Calendar c = Calendar.getInstance();
                 c.setTime(date);
-                setListViewdata();
-
+                databaseRoutine = FirebaseDatabase.getInstance().getReference("routineDatabase").child(fAuth.getCurrentUser().getUid()).child(date.toString());
+                setListViewData();
             }
 
             @Override
@@ -110,76 +98,68 @@ public class LogFragment extends Fragment  {
         eveningBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent=new Intent(getActivity(),DayRoutinePopUp.class);
                 intent.putExtra("dayPart","evening");
-                intent.putExtra("date",calendar.getSelected().toString());
+                intent.putExtra("date", calendar.getSelected().toString());
                 startActivity(intent);
-
             }
         });
-
-
-
-
     }
 
-    private void setListViewdata( ) {
-        databaseProducts = FirebaseDatabase.getInstance().getReference("productsDatabase").child(fAuth.getCurrentUser().getUid());
-        databaseRoutine = FirebaseDatabase.getInstance().getReference("routineDatabase").child(fAuth.getCurrentUser().getUid()).child(calendar.getSelected().toString());
-
-
-        databaseRoutine.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                dailyRoutines.clear();
-                for (DataSnapshot productSnapshot: dataSnapshot.getChildren()){
-                    DailyRoutine dailyRoutine=productSnapshot.getValue(DailyRoutine.class);
-                    dailyRoutines.add(dailyRoutine);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-        databaseProducts.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                productListMorning.clear();
-                productListDay.clear();
-                productListEvening.clear();
-                for (DataSnapshot productSnapshot: dataSnapshot.getChildren()){
-                    for (DailyRoutine dailyRoutine:dailyRoutines){
-                        String productID=dailyRoutine.getProductID();
-                        String dayPart=dailyRoutine.getDayPart();
-                        Product product=productSnapshot.getValue(Product.class);
-                        if (product.getProductID().trim().equals(productID.trim())){
-                            if (dayPart.equals("morning")) productListMorning.add(product);
-                            else if (dayPart.equals("day")) productListDay.add(product);
-                            else if (dayPart.equals("evening")) productListEvening.add(product);
-                        }
+    private void setListViewData() {
+        if (getActivity() != null) {
+            databaseRoutine.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    dailyRoutines.clear();
+                    for (DataSnapshot productSnapshot : dataSnapshot.getChildren()) {
+                        DailyRoutine dailyRoutine = productSnapshot.getValue(DailyRoutine.class);
+                        dailyRoutines.add(dailyRoutine);
                     }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
                 }
-                     Activity context=getActivity();
-                    ProductsArrayListAdapter adapterMorning = new ProductsArrayListAdapter(context,productListMorning);
-                    ProductsArrayListAdapter adapterDay = new ProductsArrayListAdapter(context,productListDay);
-                    ProductsArrayListAdapter adapterEvening = new ProductsArrayListAdapter(context,productListEvening);
-                    listViewMorning.setAdapter(adapterMorning);
-                    listViewDay.setAdapter(adapterDay);
-                    listViewEvening.setAdapter(adapterEvening);
+            });
 
+            databaseProducts.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    productListMorning.clear();
+                    productListDay.clear();
+                    productListEvening.clear();
+                    for (DataSnapshot productSnapshot : dataSnapshot.getChildren()) {
+                        for (DailyRoutine dailyRoutine : dailyRoutines) {
+                            String productID = dailyRoutine.getProductID();
+                            String dayPart = dailyRoutine.getDayPart();
+                            Product product = productSnapshot.getValue(Product.class);
+                            if (product.getProductID().trim().equals(productID.trim())) {
+                                if (dayPart.equals("morning")) productListMorning.add(product);
+                                else if (dayPart.equals("day")) productListDay.add(product);
+                                else if (dayPart.equals("evening")) productListEvening.add(product);
+                            }
+                        }
 
-            }
+                    }
+                    if (getActivity() != null) {
+                        ProductsArrayListAdapter adapterMorning = new ProductsArrayListAdapter(getActivity(), productListMorning);
+                        ProductsArrayListAdapter adapterDay = new ProductsArrayListAdapter(getActivity(), productListDay);
+                        ProductsArrayListAdapter adapterEvening = new ProductsArrayListAdapter(getActivity(), productListEvening);
+                        listViewMorning.setAdapter(adapterMorning);
+                        listViewDay.setAdapter(adapterDay);
+                        listViewEvening.setAdapter(adapterEvening);
+                        setListViewData();
+                    }
+                }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
+        }
     }
 
     private void findViews(View view) {
@@ -191,11 +171,19 @@ public class LogFragment extends Fragment  {
         listViewMorning = view.findViewById(R.id.listViewMorning);
         listViewDay = view.findViewById(R.id.listViewDay);
         listViewEvening = view.findViewById(R.id.listViewEvening);
+
         Calendar c = Calendar.getInstance();
         c.add(Calendar.DAY_OF_MONTH, -35);
         calendar.setSelected(c.getTime());
         Date d = new Date();
         calendar.setSelected(d);
+
+        productListMorning= new ArrayList<>();
+        productListDay = new ArrayList<>();
+        productListEvening = new ArrayList<>();
+        dailyRoutines= new ArrayList<>();
+        databaseProducts = FirebaseDatabase.getInstance().getReference("productsDatabase").child(fAuth.getCurrentUser().getUid());
+        databaseRoutine = FirebaseDatabase.getInstance().getReference("routineDatabase").child(fAuth.getCurrentUser().getUid()).child(calendar.getSelected().toString());
 
 
     }
