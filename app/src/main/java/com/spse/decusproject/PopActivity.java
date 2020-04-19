@@ -2,6 +2,7 @@ package com.spse.decusproject;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -21,6 +22,7 @@ import com.example.decus.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.spse.decusproject.Fragment.ProfileFragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -124,11 +126,10 @@ public class PopActivity extends Activity implements DatePickerDialog.OnDateSetL
                 if (!productDate.contains("Choose expiration date.")){
                         String id=databaseProducts.push().getKey();
                         Product product = new Product(name,brand,category,date,id);
-                        System.out.println(product);
                         databaseProducts.child(id).setValue(product);
 
                     Toast.makeText(PopActivity.this,"Product added.",Toast.LENGTH_LONG).show();
-                    finish();
+                   finish();
                 }
                 else Toast.makeText(PopActivity.this,"Choose product expiration date.",Toast.LENGTH_LONG).show();
             }

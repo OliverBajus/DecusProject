@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -98,13 +99,6 @@ public class HomeFragment extends Fragment {
         }
 
         return myFragment;
-    }
-
-    private String getDate(){
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy", java.util.Locale.ENGLISH);
-        Date myDate = new Date();
-        String sMyDate = "" + sdf.format(myDate);
-        return sMyDate;
     }
 
     @Override
@@ -190,6 +184,7 @@ public class HomeFragment extends Fragment {
                 popup.show();
             }
         });
+
     }
 
     @Override

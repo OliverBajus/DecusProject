@@ -1,6 +1,7 @@
 package com.spse.decusproject.Adapter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ public class ProductsArrayListAdapter extends ArrayAdapter<Product> {
         this.context=context;
         this.arrayList=arrayList;
     }
+
 
     @NonNull
     @Override

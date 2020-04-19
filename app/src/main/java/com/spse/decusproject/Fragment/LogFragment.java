@@ -1,5 +1,7 @@
 package com.spse.decusproject.Fragment;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -52,12 +54,18 @@ public class LogFragment extends Fragment  {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view =  inflater.inflate(R.layout.fragment_log,container,false);
+        productListMorning= new ArrayList<>();
+        productListDay = new ArrayList<>();
+        productListEvening = new ArrayList<>();
+        dailyRoutines= new ArrayList<>();
         findViews(view);
+        setListViewdata();
+
         return view;
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(final View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
 //        Calendar
@@ -67,7 +75,6 @@ public class LogFragment extends Fragment  {
             public void selectChanged(Date date) {
                 Calendar c = Calendar.getInstance();
                 c.setTime(date);
-                databaseRoutine = FirebaseDatabase.getInstance().getReference("routineDatabase").child(fAuth.getCurrentUser().getUid()).child(date.toString());
                 setListViewdata();
 
             }
@@ -117,17 +124,11 @@ public class LogFragment extends Fragment  {
 
     }
 
+    private void setListViewdata( ) {
+        databaseProducts = FirebaseDatabase.getInstance().getReference("productsDatabase").child(fAuth.getCurrentUser().getUid());
+        databaseRoutine = FirebaseDatabase.getInstance().getReference("routineDatabase").child(fAuth.getCurrentUser().getUid()).child(calendar.getSelected().toString());
 
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        setListViewdata();
-
-
-    }
-
-    private void setListViewdata() {
         databaseRoutine.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -163,12 +164,15 @@ public class LogFragment extends Fragment  {
                     }
 
                 }
-                ProductsArrayListAdapter adapterMorning = new ProductsArrayListAdapter(getActivity(),productListMorning);
-                ProductsArrayListAdapter adapterDay = new ProductsArrayListAdapter(getActivity(),productListDay);
-                ProductsArrayListAdapter adapterEvening = new ProductsArrayListAdapter(getActivity(),productListEvening);
-                listViewMorning.setAdapter(adapterMorning);
-                listViewDay.setAdapter(adapterDay);
-                listViewEvening.setAdapter(adapterEvening);
+                     Activity context=getActivity();
+                    ProductsArrayListAdapter adapterMorning = new ProductsArrayListAdapter(context,productListMorning);
+                    ProductsArrayListAdapter adapterDay = new ProductsArrayListAdapter(context,productListDay);
+                    ProductsArrayListAdapter adapterEvening = new ProductsArrayListAdapter(context,productListEvening);
+                    listViewMorning.setAdapter(adapterMorning);
+                    listViewDay.setAdapter(adapterDay);
+                    listViewEvening.setAdapter(adapterEvening);
+
+
             }
 
             @Override
@@ -192,12 +196,6 @@ public class LogFragment extends Fragment  {
         calendar.setSelected(c.getTime());
         Date d = new Date();
         calendar.setSelected(d);
-        productListMorning= new ArrayList<>();
-        productListDay = new ArrayList<>();
-        productListEvening = new ArrayList<>();
-        dailyRoutines= new ArrayList<>();
-        databaseProducts = FirebaseDatabase.getInstance().getReference("productsDatabase").child(fAuth.getCurrentUser().getUid());
-        databaseRoutine = FirebaseDatabase.getInstance().getReference("routineDatabase").child(fAuth.getCurrentUser().getUid()).child(calendar.getSelected().toString());
 
 
     }
