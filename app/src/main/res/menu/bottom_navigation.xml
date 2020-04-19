@@ -10,7 +10,7 @@
 
   <item
       android:id="@+id/nav_log"
-      android:icon="@drawable/ic_filter_none_black_24dp"
+      android:icon="@drawable/ic_routine_foreground"
       android:title="Daily routine"/>
 
   <item
