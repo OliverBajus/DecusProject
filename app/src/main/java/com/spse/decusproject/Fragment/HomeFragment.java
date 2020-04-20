@@ -97,13 +97,6 @@ public class HomeFragment extends Fragment {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
-
-        return myFragment;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         DocumentReference docRef = fStore.collection("users").document(userId);
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -112,8 +105,10 @@ public class HomeFragment extends Fragment {
             }
         });
 
-
+        return myFragment;
     }
+
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -203,6 +198,8 @@ public class HomeFragment extends Fragment {
 
             }
         }
+
+
 
     }
 

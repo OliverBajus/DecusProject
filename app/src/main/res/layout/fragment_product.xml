@@ -15,22 +15,41 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/circle_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:id="@+id/deleteProduct"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="10dp"
+            android:background="@mipmap/ic_delete_round"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editProduct" />
+        <Button
+            android:id="@+id/editProduct"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="10dp"
+            android:background="@mipmap/ic_edit_round"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addProduct" />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="330dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="60dp"
             android:layout_marginRight="20dp"
             android:orientation="horizontal"
+            android:layout_marginTop="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.052"
-            app:layout_constraintStart_toEndOf="@id/addProduct"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/addProduct"
             app:layout_constraintTop_toTopOf="@id/addProduct">
 
             <androidx.recyclerview.widget.RecyclerView

@@ -1,5 +1,6 @@
 package com.spse.decusproject.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.spse.decusproject.Allergen;
+import com.spse.decusproject.DeleteAllergenPopUp;
 import com.spse.decusproject.Product;
 
 public class IngredientFragment extends Fragment {
@@ -31,6 +33,7 @@ public class IngredientFragment extends Fragment {
     FirebaseRecyclerOptions<Allergen> options;
     FirebaseRecyclerAdapter<Allergen, IngredientViewHolder> adapter;
     DatabaseReference allergensDatabase;
+    Button deleteAllergen;
 
     public IngredientFragment() {}
 
@@ -40,6 +43,12 @@ public class IngredientFragment extends Fragment {
         View view =  inflater.inflate(R.layout.fragment_ingredient, container, false);
         findViews(view);
         fillRecyclerView();
+        deleteAllergen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), DeleteAllergenPopUp.class));
+            }
+        });
 
 
         return view;
@@ -68,7 +77,7 @@ public class IngredientFragment extends Fragment {
     }
 
     private void findViews(View view){
-
+        deleteAllergen= view.findViewById(R.id.deleteAllergen);
         recyclerView = view.findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);

@@ -1,7 +1,6 @@
 package com.spse.decusproject;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -11,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.example.decus.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,42 +24,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-public class DayRoutinePopUp extends Activity implements FirebaseLoadDone {
+public class DeleteProductPopUp extends Activity implements FirebaseLoadDone{
 
-    Button chooseProduct;
+    Button deleteProduct;
     ImageView goBack;
     SearchableSpinner spinner;
 
     FirebaseAuth fAuth;
 
     DatabaseReference databaseProducts;
-    DatabaseReference databaseRoutine;
 
-    FirebaseLoadDone firebaseLoadDone;
-    String dateIntent,dayPart;
     List<Product> products;
     Product choosenProdcut;
-    boolean isFirstTimeClicked= true;
+    FirebaseLoadDone firebaseLoadDone;
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_daily_routine_pop_up);
-
+        setContentView(R.layout.activity_delete_product_popup);
         fAuth = FirebaseAuth.getInstance();
-        chooseProduct = findViewById(R.id.chooseProduct);
         goBack = findViewById(R.id.goBack);
         spinner = findViewById(R.id.spinner);
+        deleteProduct = findViewById(R.id.deleteProduct);
         spinner.setTitle("Choose product");
 
-        Intent intent=getIntent();
-        dateIntent= intent.getStringExtra("date");
-        dayPart = intent.getStringExtra("dayPart");
         databaseProducts = FirebaseDatabase.getInstance().getReference("productsDatabase").child(fAuth.getCurrentUser().getUid());
-        databaseRoutine = FirebaseDatabase.getInstance().getReference("routineDatabase").child(fAuth.getCurrentUser().getUid()).child(dateIntent);
 
-        firebaseLoadDone=this;
 
         databaseProducts.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -78,6 +69,7 @@ public class DayRoutinePopUp extends Activity implements FirebaseLoadDone {
             }
         });
 
+        firebaseLoadDone=this;
         DisplayMetrics dm= new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getRealMetrics(dm);
 
@@ -91,34 +83,25 @@ public class DayRoutinePopUp extends Activity implements FirebaseLoadDone {
         params.x=0;
         params.y=-20;
 
-
-
-
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-        chooseProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(DayRoutinePopUp.this,"Select your product",Toast.LENGTH_LONG).show();
-            }
-        });
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        if(!isFirstTimeClicked){
-                             choosenProdcut=products.get(position);
-                            chooseProduct.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    chooseProduct();
-                                }
-                            });
+
+                    choosenProdcut=products.get(position);
+                    deleteProduct.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            deleteProduct(choosenProdcut.getProductID());
                         }
-                        else isFirstTimeClicked=false;
+                    });
+
             }
 
             @Override
@@ -126,20 +109,14 @@ public class DayRoutinePopUp extends Activity implements FirebaseLoadDone {
 
             }
         });
-
-
     }
 
+    private void deleteProduct(String productID) {
 
-
-    private void chooseProduct() {
-        String id=databaseRoutine.push().getKey();
-        String productID=choosenProdcut.getProductID();
-        DailyRoutine routine = new DailyRoutine(id,productID,dayPart,dateIntent);
-        databaseRoutine.child(id).setValue(routine);
-        finish();
+        DatabaseReference dP = FirebaseDatabase.getInstance().getReference("productsDatabase").child(fAuth.getCurrentUser().getUid()).child(productID);
+        dP.removeValue();
+       finish();
     }
-
 
 
 
@@ -152,7 +129,6 @@ public class DayRoutinePopUp extends Activity implements FirebaseLoadDone {
         for (Product product:productList) name_list.add(product.getName());
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,name_list);
         spinner.setAdapter(adapter);
-
     }
 
     @Override

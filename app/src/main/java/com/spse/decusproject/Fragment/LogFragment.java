@@ -1,15 +1,15 @@
 package com.spse.decusproject.Fragment;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.decus.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -47,6 +47,9 @@ public class LogFragment extends Fragment {
     List<Product> productListDay;
     List<Product> productListEvening;
     List<DailyRoutine> dailyRoutines;
+    List<DailyRoutine> dailyRoutinesM;
+    List<DailyRoutine> dailyRoutinesD;
+    List<DailyRoutine> dailyRoutinesE;
 
     @Nullable
     @Override
@@ -119,6 +122,28 @@ public class LogFragment extends Fragment {
         });
 
 
+        listViewMorning.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                DailyRoutine dailyRoutine = dailyRoutinesM.get(position);
+                showUpdateDeleteDialog(dailyRoutine.getId(), dailyRoutine.getDate());
+            }
+        });
+        listViewDay.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                DailyRoutine dailyRoutine = dailyRoutinesD.get(position);
+                showUpdateDeleteDialog(dailyRoutine.getId(), dailyRoutine.getDate());
+            }
+        });
+        listViewEvening.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                DailyRoutine dailyRoutine = dailyRoutinesE.get(position);
+                showUpdateDeleteDialog(dailyRoutine.getId(), dailyRoutine.getDate());
+            }
+        });
+
 
 
     }
@@ -156,15 +181,27 @@ public class LogFragment extends Fragment {
                 productListMorning.clear();
                 productListDay.clear();
                 productListEvening.clear();
+                dailyRoutinesM.clear();
+                dailyRoutinesD.clear();
+                dailyRoutinesE.clear();
                 for (DataSnapshot productSnapshot: dataSnapshot.getChildren()){
                     for (DailyRoutine dailyRoutine:dailyRoutines){
                         String productID=dailyRoutine.getProductID();
                         String dayPart=dailyRoutine.getDayPart();
                         Product product=productSnapshot.getValue(Product.class);
                         if (product.getProductID().trim().equals(productID.trim())){
-                            if (dayPart.equals("morning")) productListMorning.add(product);
-                            else if (dayPart.equals("day")) productListDay.add(product);
-                            else if (dayPart.equals("evening")) productListEvening.add(product);
+                            if (dayPart.equals("morning")){
+                                productListMorning.add(product);
+                                dailyRoutinesM.add(dailyRoutine);
+                            }
+                            else if (dayPart.equals("day")){
+                                productListDay.add(product);
+                                dailyRoutinesD.add(dailyRoutine);
+                            }
+                            else if (dayPart.equals("evening")) {
+                                productListEvening.add(product);
+                                dailyRoutinesM.add(dailyRoutine);
+                            }
                         }
                     }
 
@@ -182,6 +219,31 @@ public class LogFragment extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+
+    }
+
+    private void showUpdateDeleteDialog(final String id, final String date) {
+
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
+        LayoutInflater inflater = getLayoutInflater();
+        final View dialogView = inflater.inflate(R.layout.delete_dialog, null);
+        dialogBuilder.setView(dialogView);
+
+
+        dialogBuilder.setTitle("Delete chosen product from calendar");
+        final AlertDialog b = dialogBuilder.create();
+        b.show();
+        final Button buttonDelete = (Button) dialogView.findViewById(R.id.buttonDeleteDailyRoutine);
+
+
+        buttonDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                deleteArtist(id,date);
+                b.dismiss();
             }
         });
     }
@@ -203,9 +265,9 @@ public class LogFragment extends Fragment {
         SimpleDateFormat formatter3=new SimpleDateFormat("E MMM dd hh:mm:ss ZZZ yyyy");
         Date date = new Date();
         String dat=formatter3.format(date);
-        productListMorning= new ArrayList<>();
-        productListDay = new ArrayList<>();
-        productListEvening = new ArrayList<>();
+        productListMorning= new ArrayList<>(); dailyRoutinesM= new ArrayList<>();
+        productListDay = new ArrayList<>(); dailyRoutinesD = new ArrayList<>();
+        productListEvening = new ArrayList<>(); dailyRoutinesE =  new ArrayList<>();
         dailyRoutines= new ArrayList<>();
         databaseProducts = FirebaseDatabase.getInstance().getReference("productsDatabase").child(fAuth.getCurrentUser().getUid());
         databaseRoutine = FirebaseDatabase.getInstance().getReference("routineDatabase").child(fAuth.getCurrentUser().getUid()).child(calendar.getSelected().toString());
@@ -216,7 +278,17 @@ public class LogFragment extends Fragment {
         listViewDay.setAdapter(adapterDay);
         listViewEvening.setAdapter(adapterEvening);
 
+
     }
+
+    private boolean deleteArtist(String id,String date) {
+       DatabaseReference dR = FirebaseDatabase.getInstance().getReference("routineDatabase").child(fAuth.getCurrentUser().getUid()).child(date).child(id);
+        dR.removeValue();
+        setListViewdata();
+
+        return true;
+    }
+
 
 
 

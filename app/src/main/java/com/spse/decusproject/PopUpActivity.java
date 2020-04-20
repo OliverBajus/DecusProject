@@ -156,7 +156,7 @@ public class PopUpActivity extends Activity {
         if (!TextUtils.isEmpty(name)){
                     if (description.equals("Description")) description="none";
                     String id=databaseAllergens.push().getKey();
-                    Allergen allergen = new Allergen(name,description);
+                    Allergen allergen = new Allergen(name,description,id);
 
                    for (Allergen allergen1:arrayList) {
                                 if (allergen.getIngredientName().equals(allergen1.getIngredientName())){

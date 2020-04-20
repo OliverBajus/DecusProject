@@ -92,8 +92,8 @@ public class PopActivity extends Activity implements DatePickerDialog.OnDateSetL
             @Override
             public void onClick(View v) {
                 showDatePickerDialog();
-            }
-        });
+    }
+});
 
         addProduct.setOnClickListener(new View.OnClickListener() {
             @Override
