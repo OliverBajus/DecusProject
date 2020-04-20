@@ -21,9 +21,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.spse.decusproject.DeleteProductPopUp;
 import com.spse.decusproject.PopActivity;
 import com.spse.decusproject.Product;
 import com.spse.decusproject.Fragment.ProductsViewHolder;
+import com.spse.decusproject.UpdateProductPopUp;
 
 public class ProductFragment extends Fragment {
 
@@ -61,6 +63,18 @@ public class ProductFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity().getApplicationContext(), PopActivity.class));
+            }
+        });
+        deleteProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity().getApplicationContext(), DeleteProductPopUp.class));
+            }
+        });
+        editProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity().getApplicationContext(), UpdateProductPopUp.class));
             }
         });
     }

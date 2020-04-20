@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class ProductsViewHolder extends RecyclerView.ViewHolder {
 
     TextView name,brand,category,date;
-    ImageView image,delete;
+    ImageView image;
 
     public ProductsViewHolder(@NonNull final View itemView) {
         super(itemView);
@@ -23,14 +23,7 @@ public class ProductsViewHolder extends RecyclerView.ViewHolder {
         category=itemView.findViewById(R.id.textViewCategory);
         date=itemView.findViewById(R.id.textViewExpirationDate);
         image=itemView.findViewById(R.id.productImageView);
-        delete= itemView.findViewById(R.id.deleteBtn);
 
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(itemView.getContext(), "Ajoj", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     public TextView getName() {
