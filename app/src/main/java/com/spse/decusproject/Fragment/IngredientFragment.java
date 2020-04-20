@@ -61,7 +61,6 @@ public class IngredientFragment extends Fragment {
             @Override
             protected void onBindViewHolder(@NonNull IngredientViewHolder holder, int position, @NonNull Allergen model) {
                 holder.getName().setText(model.getIngredientName());
-                holder.getDescription().setText(model.getDescription());
             }
 
 

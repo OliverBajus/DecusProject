@@ -101,12 +101,17 @@ public class OCR extends AppCompatActivity {
                     Toast.makeText(OCR.this, "Non ingredients found", Toast.LENGTH_SHORT).show();
                 } else {
                     System.out.println(ingrediencie);
-                    arrayOfIngredients = ingrediencie.split("[,\\|]");
+                    int startIndex = ingrediencie.indexOf(":");
+                    ingrediencie.substring(startIndex);
+                    ingrediencie.replace("\n", "").replace("\r", "");
+                    arrayOfIngredients = ingrediencie.split("[,||:||\\|]");
                     for (int i = 0; i <arrayOfIngredients.length; i++){
+
                         arrayOfIngredients[i].trim();
                         System.out.println(arrayOfIngredients[i]);
                     }
                     arrayListOfIngredients =  new ArrayList<>(Arrays.asList(arrayOfIngredients));
+                    arrayListOfIngredients.remove(0);
                     Intent intent = new Intent(OCR.this, ScannedIngredientsPopUp.class);
                     intent.putExtra("ARRAYLIST", arrayListOfIngredients);
                     startActivity(intent);

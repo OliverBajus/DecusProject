@@ -48,11 +48,22 @@
         app:layout_constraintTop_toBottomOf="@+id/ingredient_name" />
 
 
+    <TextView
+        android:id="@+id/warning"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat"
+        android:textAlignment="viewStart"
+        android:textColor="#505050"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
     <ListView
         android:id="@+id/listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="48dp"
         android:outlineAmbientShadowColor="@color/colorPrimary"
 
         android:paddingLeft="15dp"

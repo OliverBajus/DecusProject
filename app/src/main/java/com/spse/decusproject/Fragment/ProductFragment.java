@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.StrictMode;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -22,11 +21,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.spse.decusproject.DeleteProductPopUp;
 import com.spse.decusproject.PopActivity;
 import com.spse.decusproject.Product;
 import com.spse.decusproject.Fragment.ProductsViewHolder;
-import com.spse.decusproject.UpdateProductPopUp;
 
 public class ProductFragment extends Fragment {
 
@@ -66,20 +63,6 @@ public class ProductFragment extends Fragment {
                 startActivity(new Intent(getActivity().getApplicationContext(), PopActivity.class));
             }
         });
-
-        deleteProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity().getApplicationContext(), DeleteProductPopUp.class));
-            }
-        });
-
-        editProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity().getApplicationContext(), UpdateProductPopUp.class));
-            }
-        });
     }
 
     private void fillRecyclerView() {
@@ -93,9 +76,14 @@ public class ProductFragment extends Fragment {
                 holder.getBrand().setText("Brand: "+model.getBrand());
                 holder.getCategory().setText("Category: "+model.getCategory());
                 holder.getDate().setText(model.getDate());
-                holder.getImage().setImageResource(R.drawable.moisturizes);
-
-
+                if (model.getCategory() == "Acid") { holder.getImage().setImageResource(R.drawable.acid); }
+                else if(model.getCategory() == "Mask") { holder.getImage().setImageResource(R.drawable.mask); }
+                else if(model.getCategory() == "Cleanser ") { holder.getImage().setImageResource(R.drawable.cleanser); }
+                else if(model.getCategory() == "Moisturizer") { holder.getImage().setImageResource(R.drawable.moisturizer); }
+                else if(model.getCategory() == "Oil") { holder.getImage().setImageResource(R.drawable.oil); }
+                else if(model.getCategory() == "Make Up") { holder.getImage().setImageResource(R.drawable.makeup); }
+                else if(model.getCategory() == "Fragrance") { holder.getImage().setImageResource(R.drawable.fragrance); }
+                else if(model.getCategory() == "Nails care") { holder.getImage().setImageResource(R.drawable.nailcare); }
             }
 
             @NonNull
@@ -113,12 +101,10 @@ public class ProductFragment extends Fragment {
         addProduct = view.findViewById(R.id.addProduct);
         deleteProduct = view.findViewById(R.id.deleteProduct);
         editProduct = view.findViewById(R.id.editProduct);
-
         recyclerView = view.findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-
 
         fAuth = FirebaseAuth.getInstance();
         firebaseFirestore= FirebaseFirestore.getInstance();

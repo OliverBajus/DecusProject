@@ -15,7 +15,7 @@ import com.spse.decusproject.ScannedIngredientsPopUp;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import static com.spse.decusproject.ScannedIngredientsPopUp.arrayOfIngredients;
+import static com.spse.decusproject.ScannedIngredientsPopUp.arrayListOfIngredients;
 
 public class ListViewAdapter extends BaseAdapter {
 
@@ -29,7 +29,7 @@ public class ListViewAdapter extends BaseAdapter {
         mContext = context;
         inflater = LayoutInflater.from(mContext);
         arraylist = new ArrayList<String>();
-        arraylist.addAll(arrayOfIngredients);
+        arraylist.addAll(arrayListOfIngredients);
         System.out.println("zaciatok " + arraylist.size());
     }
 
@@ -39,15 +39,15 @@ public class ListViewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        System.out.println("size: " + arrayOfIngredients.size());
+        System.out.println("size: " + arrayListOfIngredients.size());
         System.out.println("arraylist size: " + arraylist.size());
-        return ScannedIngredientsPopUp.arrayOfIngredients.size();
+        return ScannedIngredientsPopUp.arrayListOfIngredients.size();
 
     }
 
     @Override
     public String getItem(int position) {
-        return ScannedIngredientsPopUp.arrayOfIngredients.get(position).toString();
+        return ScannedIngredientsPopUp.arrayListOfIngredients.get(position).toString();
     }
 
     @Override
@@ -66,23 +66,23 @@ public class ListViewAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         // Set the results into TextViews
-        holder.name.setText("" + ScannedIngredientsPopUp.arrayOfIngredients.get(position));
+        holder.name.setText("" + ScannedIngredientsPopUp.arrayListOfIngredients.get(position));
         return view;
     }
 
     // Filter Class
     public void filter(String charText) {
         charText = charText.toLowerCase(Locale.getDefault());
-        ScannedIngredientsPopUp.arrayOfIngredients.clear();
+        ScannedIngredientsPopUp.arrayListOfIngredients.clear();
         Log.d("vsetky", "ahoj");
         if (charText.length() == 0) {
-            ScannedIngredientsPopUp.arrayOfIngredients.addAll(arraylist);
+            ScannedIngredientsPopUp.arrayListOfIngredients.addAll(arraylist);
             System.out.println("vsetky");
         } else {
             for (String wp : arraylist) {
                 String sp = String.valueOf(wp);
                 if (sp.toLowerCase(Locale.getDefault()).contains(charText)) {
-                    ScannedIngredientsPopUp.arrayOfIngredients.add(wp);
+                    ScannedIngredientsPopUp.arrayListOfIngredients.add(wp);
 
                 }
             }

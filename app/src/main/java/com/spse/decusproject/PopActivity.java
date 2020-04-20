@@ -73,13 +73,13 @@ public class PopActivity extends Activity implements DatePickerDialog.OnDateSetL
             getWindow().setAttributes(params);
             getWindow().setAttributes(params);
             List<String> list= new ArrayList<>();
-            list.add("Acids");
-            list.add("Masks");
-            list.add("Cleaners");
-            list.add("Moisturizes");
-            list.add("Oils");
-            list.add("Make up and colour cosmetics");
-            list.add("Fragrances");
+            list.add("Acid");
+            list.add("Mask");
+            list.add("Cleanser");
+            list.add("Moisturizer");
+            list.add("Oil");
+            list.add("Make Up");
+            list.add("Fragrance");
             list.add("Nails care");
 
 
