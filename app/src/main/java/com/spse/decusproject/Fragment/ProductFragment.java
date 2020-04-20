@@ -78,7 +78,7 @@ public class ProductFragment extends Fragment {
                 holder.getDate().setText(model.getDate());
                 if (model.getCategory() == "Acid") { holder.getImage().setImageResource(R.drawable.acid); }
                 else if(model.getCategory() == "Mask") { holder.getImage().setImageResource(R.drawable.mask); }
-                else if(model.getCategory() == "Cleanser") { holder.getImage().setImageResource(R.drawable.cleanser); }
+                else if(model.getCategory() == "Cleanser ") { holder.getImage().setImageResource(R.drawable.cleanser); }
                 else if(model.getCategory() == "Moisturizer") { holder.getImage().setImageResource(R.drawable.moisturizer); }
                 else if(model.getCategory() == "Oil") { holder.getImage().setImageResource(R.drawable.oil); }
                 else if(model.getCategory() == "Make Up") { holder.getImage().setImageResource(R.drawable.makeup); }
