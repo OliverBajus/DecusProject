@@ -23,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.spse.decusproject.Objects.Allergen;
 import com.spse.decusproject.Activity.MainActivity;
+import com.spse.decusproject.Objects.Ingredient;
 
 import java.util.ArrayList;
 

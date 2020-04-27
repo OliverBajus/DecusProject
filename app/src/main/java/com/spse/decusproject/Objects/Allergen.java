@@ -13,6 +13,9 @@ public class Allergen {
     public Allergen(String object) {
     }
 
+    public Allergen() {
+    }
+
     public String getIngredientName() {
         return ingredientName;
     }
