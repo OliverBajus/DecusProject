@@ -1,4 +1,4 @@
-package com.spse.decusproject;
+package com.spse.decusproject.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,13 +28,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Register extends AppCompatActivity {
-    public static final String TAG = "TAG";
-    EditText mFullName,mEmail,mPassword;
-    Button mRegisterBtn,mLoginBtn;
-    FirebaseAuth fAuth;
-    ProgressBar progressBar;
-    FirebaseFirestore fStore;
-    String userID;
+    private static final String TAG = "TAG";
+    private EditText mFullName,mEmail,mPassword;
+    private Button mRegisterBtn,mLoginBtn;
+    private FirebaseAuth fAuth;
+    private ProgressBar progressBar;
+    private FirebaseFirestore fStore;
+    private String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,7 @@ public class Register extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
 
         if(fAuth.getCurrentUser() != null){
-            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
             finish();
         }
 
@@ -65,17 +65,17 @@ public class Register extends AppCompatActivity {
                 final String fullName = mFullName.getText().toString();
 
                 if(TextUtils.isEmpty(email)){
-                    mEmail.setError("Email is Required.");
+                    mEmail.setError("Email is required.");
                     return;
                 }
 
                 if(TextUtils.isEmpty(password)){
-                    mPassword.setError("Password is Required.");
+                    mPassword.setError("Password is required.");
                     return;
                 }
 
                 if(password.length() < 6){
-                    mPassword.setError("Password Must be >= 6 Characters");
+                    mPassword.setError("Password must at least 6 characters long");
                     return;
                 }
 
@@ -99,13 +99,13 @@ public class Register extends AppCompatActivity {
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(Register.this,"Error!!"+e.getMessage(),Toast.LENGTH_LONG).show();
+                                    Toast.makeText(Register.this,"Error!!" + e.getMessage(),Toast.LENGTH_LONG).show();
                                 }
                             });
 
 
 
-                            Toast.makeText(Register.this, "User Created.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Register.this, "User created.", Toast.LENGTH_SHORT).show();
                             userID = fAuth.getCurrentUser().getUid();
                             DocumentReference documentReference = fStore.collection("users").document(userID);
                             Map<String,Object> user = new HashMap<>();
@@ -135,7 +135,7 @@ public class Register extends AppCompatActivity {
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),Login.class));
+                startActivity(new Intent(getApplicationContext(), Login.class));
             }
         });
     }

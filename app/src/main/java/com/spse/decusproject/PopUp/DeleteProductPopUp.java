@@ -1,4 +1,4 @@
-package com.spse.decusproject;
+package com.spse.decusproject.PopUp;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -18,6 +18,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.spse.decusproject.Objects.Allergen;
+import com.spse.decusproject.FirebaseLoadDone;
+import com.spse.decusproject.Objects.Product;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import java.util.ArrayList;
@@ -26,18 +29,18 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class DeleteProductPopUp extends Activity implements FirebaseLoadDone{
+public class DeleteProductPopUp extends Activity implements FirebaseLoadDone {
 
-    Button deleteProduct;
-    ImageView goBack;
-    SearchableSpinner spinner;
+    private Button deleteProduct;
+    private ImageView goBack;
+    private SearchableSpinner spinner;
 
-    FirebaseAuth fAuth;
+    private FirebaseAuth fAuth;
 
-    DatabaseReference databaseProducts;
+    private DatabaseReference databaseProducts;
 
-    List<Product> products;
-    Product choosenProdcut;
+    private List<Product> products;
+    private Product choosenProdcut;
     FirebaseLoadDone firebaseLoadDone;
 
 
@@ -112,7 +115,6 @@ public class DeleteProductPopUp extends Activity implements FirebaseLoadDone{
     }
 
     private void deleteProduct(String productID) {
-
         DatabaseReference dP = FirebaseDatabase.getInstance().getReference("productsDatabase").child(fAuth.getCurrentUser().getUid()).child(productID);
         dP.removeValue();
        finish();

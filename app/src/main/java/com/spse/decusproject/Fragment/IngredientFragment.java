@@ -20,20 +20,22 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.spse.decusproject.Allergen;
-import com.spse.decusproject.DeleteAllergenPopUp;
-import com.spse.decusproject.Product;
+import com.spse.decusproject.Objects.Allergen;
+import com.spse.decusproject.PopUp.DeleteAllergenPopUp;
+import com.spse.decusproject.Objects.IngredientViewHolder;
+
+import java.util.Objects;
 
 public class IngredientFragment extends Fragment {
 
 
-    RecyclerView recyclerView;
-    FirebaseAuth fAuth;
-    FirebaseFirestore firebaseFirestore;
-    FirebaseRecyclerOptions<Allergen> options;
-    FirebaseRecyclerAdapter<Allergen, IngredientViewHolder> adapter;
-    DatabaseReference allergensDatabase;
-    Button deleteAllergen;
+    private RecyclerView recyclerView;
+    private FirebaseAuth fAuth;
+    private FirebaseFirestore firebaseFirestore;
+    private FirebaseRecyclerOptions<Allergen> options;
+    private FirebaseRecyclerAdapter<Allergen, IngredientViewHolder> adapter;
+    private DatabaseReference allergensDatabase;
+    private Button deleteAllergen;
 
     public IngredientFragment() {}
 
@@ -49,8 +51,6 @@ public class IngredientFragment extends Fragment {
                 startActivity(new Intent(getActivity(), DeleteAllergenPopUp.class));
             }
         });
-
-
         return view;
     }
 
@@ -62,7 +62,6 @@ public class IngredientFragment extends Fragment {
             protected void onBindViewHolder(@NonNull IngredientViewHolder holder, int position, @NonNull Allergen model) {
                 holder.getName().setText(model.getIngredientName());
             }
-
 
             @NonNull
             @Override
@@ -83,6 +82,6 @@ public class IngredientFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         fAuth = FirebaseAuth.getInstance();
         firebaseFirestore= FirebaseFirestore.getInstance();
-        allergensDatabase =  FirebaseDatabase.getInstance().getReference("allergensDatabase").child(fAuth.getCurrentUser().getUid());
+        allergensDatabase =  FirebaseDatabase.getInstance().getReference("allergensDatabase").child(Objects.requireNonNull(fAuth.getCurrentUser()).getUid());
     }
 }

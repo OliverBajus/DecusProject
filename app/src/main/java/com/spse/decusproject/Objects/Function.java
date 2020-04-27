@@ -1,10 +1,7 @@
-package com.spse.decusproject;
+package com.spse.decusproject.Objects;
 
 public class Function {
     String function,description;
-
-    public Function() {
-    }
 
     public Function(String function, String description) {
         this.function = function;

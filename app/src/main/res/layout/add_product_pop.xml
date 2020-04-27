@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgorund"
-    tools:context="com.spse.decusproject.PopActivity">
+    tools:context="com.spse.decusproject.PopUp.AddProductPopUp">
 
 
     <TextView

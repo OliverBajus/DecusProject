@@ -20,8 +20,6 @@ import android.widget.Toast;
 
 
 import com.example.decus.R;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.tabs.TabLayout;
@@ -37,40 +35,33 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.spse.decusproject.Adapter.SectionPagerAdapter;
-import com.spse.decusproject.Login;
-import com.spse.decusproject.Product;
-import com.spse.decusproject.Fragment.ProductsViewHolder;
+import com.spse.decusproject.Activity.Login;
 import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
+
+import java.util.Objects;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class ProfileFragment extends Fragment {
 
-    TextView fullName,email,verificationTxt;
-    FirebaseAuth fAuth;
-    FirebaseFirestore fStore;
-    FirebaseUser user;
-    String userId;
-    Button changeProfileImg;
-    ImageView settingsImg,verifyIcon;
-    CircleImageView profileImage;
+    private TextView fullName,email,verificationTxt;
+    private FirebaseAuth fAuth;
+    private FirebaseFirestore fStore;
+    private FirebaseUser user;
+    private String userId;
+    private Button changeProfileImg;
+    private ImageView settingsImg,verifyIcon;
+    private CircleImageView profileImage;
 
-    DatabaseReference databaseProducts;
-    FirebaseFirestore firebaseFirestore;
-    FirebaseRecyclerOptions<Product> options;
-    FirebaseRecyclerAdapter<Product, ProductsViewHolder> adapter;
+    private StorageReference storageReference;
 
-    StorageReference storageReference;
-
-    Query databaseProductsQuery;
-
-    ViewPager viewPager;
-    TabLayout tabLayout;
+    private ViewPager viewPager;
 
 
     @Nullable
@@ -151,7 +142,7 @@ public class ProfileFragment extends Fragment {
 
                             case R.id.logout:{
                                 FirebaseAuth.getInstance().signOut();//logout
-                                startActivity(new Intent(getActivity().getApplicationContext(), Login.class));
+                                startActivity(new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), Login.class));
                                 getActivity().finish();
                             }  return true;
 
@@ -319,11 +310,11 @@ public class ProfileFragment extends Fragment {
         fStore = FirebaseFirestore.getInstance();
         userId = fAuth.getCurrentUser().getUid();
         user=fAuth.getCurrentUser();
-        databaseProducts = FirebaseDatabase.getInstance().getReference("products");
-        databaseProductsQuery = FirebaseDatabase.getInstance().getReference("products")
+        DatabaseReference databaseProducts = FirebaseDatabase.getInstance().getReference("products");
+        Query databaseProductsQuery = FirebaseDatabase.getInstance().getReference("products")
                 .orderByChild("userID")
                 .equalTo(fAuth.getCurrentUser().getUid());
-        firebaseFirestore=FirebaseFirestore.getInstance();
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         settingsImg=view.findViewById(R.id.settingsImg);
         verifyIcon=view.findViewById(R.id.verifyIcon);
         verificationTxt=view.findViewById(R.id.verificatioMsg);
@@ -333,7 +324,7 @@ public class ProfileFragment extends Fragment {
 
         viewPager = view.findViewById(R.id.viewPager);
         setUpViewPager(viewPager);
-        tabLayout = view.findViewById(R.id.tabLayout);
+        TabLayout tabLayout = view.findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
     }
 

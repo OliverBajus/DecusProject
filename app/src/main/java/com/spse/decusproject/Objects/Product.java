@@ -1,4 +1,4 @@
-package com.spse.decusproject;
+package com.spse.decusproject.Objects;
 
 
 public class Product {

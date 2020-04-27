@@ -1,8 +1,7 @@
-package com.spse.decusproject;
+package com.spse.decusproject.PopUp;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -22,28 +21,28 @@ import com.example.decus.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.spse.decusproject.Fragment.ProfileFragment;
+import com.spse.decusproject.Objects.Product;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class PopActivity extends Activity implements DatePickerDialog.OnDateSetListener {
-    EditText productName,productBrand;
-    Button addProduct;
-    Spinner spinner;
+public class AddProductPopUp extends Activity implements DatePickerDialog.OnDateSetListener {
+    private EditText productName,productBrand;
+    private Button addProduct;
+    private Spinner spinner;
     private TextView dateText;
-    String date;
-    ImageView goback;
+    private String date;
+    private ImageView goback;
 
-    DatabaseReference databaseProducts;
+    private DatabaseReference databaseProducts;
 
-    FirebaseAuth fAuth;
+    private FirebaseAuth fAuth;
 
     @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_pop);
+            setContentView(R.layout.add_product_pop);
 
             productName = findViewById(R.id.productName);
             productBrand = findViewById(R.id.productBrand);
@@ -83,7 +82,6 @@ public class PopActivity extends Activity implements DatePickerDialog.OnDateSetL
             list.add("Nails care");
 
 
-
         ArrayAdapter<String> arrayAdapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,list);
             arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(arrayAdapter);
@@ -111,7 +109,6 @@ public class PopActivity extends Activity implements DatePickerDialog.OnDateSetL
 
         });
 
-
     }
 
     private void addProduct() {
@@ -128,14 +125,14 @@ public class PopActivity extends Activity implements DatePickerDialog.OnDateSetL
                         Product product = new Product(name,brand,category,date,id);
                         databaseProducts.child(id).setValue(product);
 
-                    Toast.makeText(PopActivity.this,"Product added.",Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddProductPopUp.this,"Product added.",Toast.LENGTH_LONG).show();
                    finish();
                 }
-                else Toast.makeText(PopActivity.this,"Choose product expiration date.",Toast.LENGTH_LONG).show();
+                else Toast.makeText(AddProductPopUp.this,"Choose product expiration date.",Toast.LENGTH_LONG).show();
             }
-            else Toast.makeText(PopActivity.this,"Enter product brand.",Toast.LENGTH_LONG).show();
+            else Toast.makeText(AddProductPopUp.this,"Enter product brand.",Toast.LENGTH_LONG).show();
         }
-        else Toast.makeText(PopActivity.this,"Enter product name.",Toast.LENGTH_LONG).show();
+        else Toast.makeText(AddProductPopUp.this,"Enter product name.",Toast.LENGTH_LONG).show();
 
     }
 

@@ -1,9 +1,9 @@
 package com.spse.decusproject.Fragment;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,15 +19,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.spse.decusproject.Adapter.ProductsArrayListAdapter;
-import com.spse.decusproject.DailyRoutine;
-import com.spse.decusproject.DayRoutinePopUp;
-import com.spse.decusproject.Product;
+import com.spse.decusproject.Objects.DailyRoutine;
+import com.spse.decusproject.PopUp.DayRoutinePopUp;
+import com.spse.decusproject.Objects.Product;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,19 +38,18 @@ import be.greifmatthias.horizontalcalendarstrip.HorizontalCalendar;
 public class LogFragment extends Fragment {
 
     private Button morningBtn,dayBtn,eveningBtn;
-    FirebaseAuth fAuth;
+    private FirebaseAuth fAuth;
     private DatabaseReference databaseProducts;
     private DatabaseReference databaseRoutine;
-    HorizontalCalendar calendar;
-    ListView listViewMorning,listViewDay,listViewEvening;
+    private ListView listViewMorning,listViewDay,listViewEvening;
 
-    List<Product> productListMorning;
-    List<Product> productListDay;
-    List<Product> productListEvening;
-    List<DailyRoutine> dailyRoutines;
-    List<DailyRoutine> dailyRoutinesM;
-    List<DailyRoutine> dailyRoutinesD;
-    List<DailyRoutine> dailyRoutinesE;
+    private List<Product> productListMorning;
+    private List<Product> productListDay;
+    private  List<Product> productListEvening;
+    private  List<DailyRoutine> dailyRoutines;
+    private  List<DailyRoutine> dailyRoutinesM;
+    private  List<DailyRoutine> dailyRoutinesD;
+    private  List<DailyRoutine> dailyRoutinesE;
 
     @Nullable
     @Override
@@ -64,12 +64,11 @@ public class LogFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 //        Calendar
-        final HorizontalCalendar calendar = getView().findViewById(R.id.hcCalendar);
+        final HorizontalCalendar calendar = Objects.requireNonNull(getView()).findViewById(R.id.hcCalendar);
         Calendar c = Calendar.getInstance();
         c.add(Calendar.DAY_OF_MONTH, -35);
         calendar.setSelected(c.getTime());
         Date d = new Date();
-        CharSequence s  = DateFormat.format("MMMM d, yyyy ", d.getTime());
         calendar.setSelected(d);
 
         calendar.setOnChanged(new HorizontalCalendar.onChangeListener() {
@@ -78,7 +77,7 @@ public class LogFragment extends Fragment {
                 Calendar c = Calendar.getInstance();
                 c.setTime(date);
                 databaseRoutine = FirebaseDatabase.getInstance().getReference("routineDatabase").child(fAuth.getCurrentUser().getUid()).child(date.toString());
-                setListViewdata();
+                setListViewData();
 
             }
 
@@ -143,22 +142,15 @@ public class LogFragment extends Fragment {
                 showUpdateDeleteDialog(dailyRoutine.getId(), dailyRoutine.getDate());
             }
         });
-
-
-
     }
-
-
 
     @Override
     public void onStart() {
         super.onStart();
-        setListViewdata();
-
-
+        setListViewData();
     }
 
-    private void setListViewdata() {
+    private void setListViewData() {
         databaseRoutine.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -241,8 +233,7 @@ public class LogFragment extends Fragment {
         buttonDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                deleteArtist(id,date);
+                deleteArtist(id, date);
                 b.dismiss();
             }
         });
@@ -253,7 +244,7 @@ public class LogFragment extends Fragment {
         dayBtn = view.findViewById(R.id.dayBtn);
         eveningBtn = view.findViewById(R.id.eveningBtn);
         fAuth  = FirebaseAuth.getInstance();
-        calendar = view.findViewById(R.id.hcCalendar);
+        HorizontalCalendar calendar = view.findViewById(R.id.hcCalendar);
         listViewMorning = view.findViewById(R.id.listViewMorning);
         listViewDay = view.findViewById(R.id.listViewDay);
         listViewEvening = view.findViewById(R.id.listViewEvening);
@@ -262,14 +253,14 @@ public class LogFragment extends Fragment {
         calendar.setSelected(c.getTime());
         Date d = new Date();
         calendar.setSelected(d);
-        SimpleDateFormat formatter3=new SimpleDateFormat("E MMM dd hh:mm:ss ZZZ yyyy");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat formatter3 = new SimpleDateFormat("E MMM dd hh:mm:ss ZZZ yyyy");
         Date date = new Date();
         String dat=formatter3.format(date);
         productListMorning= new ArrayList<>(); dailyRoutinesM= new ArrayList<>();
         productListDay = new ArrayList<>(); dailyRoutinesD = new ArrayList<>();
         productListEvening = new ArrayList<>(); dailyRoutinesE =  new ArrayList<>();
         dailyRoutines= new ArrayList<>();
-        databaseProducts = FirebaseDatabase.getInstance().getReference("productsDatabase").child(fAuth.getCurrentUser().getUid());
+        databaseProducts = FirebaseDatabase.getInstance().getReference("productsDatabase").child(Objects.requireNonNull(fAuth.getCurrentUser()).getUid());
         databaseRoutine = FirebaseDatabase.getInstance().getReference("routineDatabase").child(fAuth.getCurrentUser().getUid()).child(calendar.getSelected().toString());
         ProductsArrayListAdapter adapterMorning = new ProductsArrayListAdapter(getActivity(),productListMorning);
         ProductsArrayListAdapter adapterDay = new ProductsArrayListAdapter(getActivity(),productListDay);
@@ -281,12 +272,10 @@ public class LogFragment extends Fragment {
 
     }
 
-    private boolean deleteArtist(String id,String date) {
-       DatabaseReference dR = FirebaseDatabase.getInstance().getReference("routineDatabase").child(fAuth.getCurrentUser().getUid()).child(date).child(id);
+    private void deleteArtist(String id, String date) {
+       DatabaseReference dR = FirebaseDatabase.getInstance().getReference("routineDatabase").child(Objects.requireNonNull(fAuth.getCurrentUser()).getUid()).child(date).child(id);
         dR.removeValue();
-        setListViewdata();
-
-        return true;
+        setListViewData();
     }
 
 

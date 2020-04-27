@@ -1,4 +1,4 @@
-package com.spse.decusproject.Fragment;
+package com.spse.decusproject.Objects;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ProductsViewHolder extends RecyclerView.ViewHolder {
 
-    TextView name,brand,category,date;
-    ImageView image;
+    private TextView name,brand,category,date;
+    private ImageView image;
 
     public ProductsViewHolder(@NonNull final View itemView) {
         super(itemView);

@@ -1,4 +1,4 @@
-package com.spse.decusproject;
+package com.spse.decusproject.PopUp;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,34 +16,28 @@ import android.widget.Toast;
 
 import com.example.decus.R;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.spse.decusproject.Objects.Allergen;
+import com.spse.decusproject.Activity.MainActivity;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 
 public class PopUpActivity extends Activity {
 
-    TextView ingredientName, ingredientFunction, ingredientDescription;
-    Button saveButton;
-    ImageView goback;
-    String name, function;
+    private TextView ingredientName, ingredientFunction, ingredientDescription;
+    private Button saveButton;
+    private ImageView goback;
+    private String name, function;
 
-    DatabaseReference databaseAllergens,databaseIngredients, databaseFunctions;
-    FirebaseAuth fAuth;
-    ArrayList<Allergen> arrayList=new ArrayList<Allergen>();
+    private DatabaseReference databaseAllergens,databaseIngredients, databaseFunctions;
+    private ArrayList<Allergen> arrayList=new ArrayList<Allergen>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,16 +48,11 @@ public class PopUpActivity extends Activity {
         ingredientFunction = findViewById(R.id.ingredient_function);
         saveButton = findViewById(R.id.save_button);
         goback = findViewById(R.id.goBack);
-        fAuth = FirebaseAuth.getInstance();
+        FirebaseAuth fAuth = FirebaseAuth.getInstance();
 
         databaseAllergens = FirebaseDatabase.getInstance().getReference("allergensDatabase").child(fAuth.getCurrentUser().getUid());
         databaseIngredients = FirebaseDatabase.getInstance().getReference("ingredientsDatabase");
         databaseFunctions = FirebaseDatabase.getInstance().getReference("functionsDatabase");
-
-        Function f = new Function("PROPELLANT","blabla propellant");
-        databaseFunctions.child("PROPELLANT").setValue(f);
-
-
 
         databaseAllergens.addValueEventListener(new ValueEventListener() {
             @Override
@@ -160,15 +149,15 @@ public class PopUpActivity extends Activity {
 
                    for (Allergen allergen1:arrayList) {
                                 if (allergen.getIngredientName().equals(allergen1.getIngredientName())){
-                                    Toast.makeText(PopUpActivity.this,"This ingredient is already saved as allergen",Toast.LENGTH_LONG).show();
-                                    startActivity(new Intent(PopUpActivity.this,MainActivity.class));return;
+                                    Toast.makeText(PopUpActivity.this,"This ingredient is already saved as an allergen",Toast.LENGTH_LONG).show();
+                                    startActivity(new Intent(PopUpActivity.this, MainActivity.class));
+                                    return;
                                 }
                          }
             databaseAllergens.child(id).setValue(allergen);
-            Toast.makeText(PopUpActivity.this,"Ingredient added as allergen successfully.",Toast.LENGTH_LONG).show();
-            startActivity(new Intent(PopUpActivity.this,MainActivity.class));return;
-
-
+            Toast.makeText(PopUpActivity.this,"Ingredient added as an allergen successfully.",Toast.LENGTH_LONG).show();
+            startActivity(new Intent(PopUpActivity.this, MainActivity.class));
+            return;
         }
         else Toast.makeText(PopUpActivity.this,"Error! Something went wrong.",Toast.LENGTH_LONG).show();
     }

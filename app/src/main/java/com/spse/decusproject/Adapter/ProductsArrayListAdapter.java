@@ -1,7 +1,7 @@
 package com.spse.decusproject.Adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.decus.R;
-import com.spse.decusproject.Product;
+import com.spse.decusproject.Objects.Product;
 
 import java.util.List;
 
@@ -33,10 +33,10 @@ public class ProductsArrayListAdapter extends ArrayAdapter<Product> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater layoutInflater=context.getLayoutInflater();
 
-        View listItemView = layoutInflater.inflate(R.layout.list_view_item_products,null,true);
+        @SuppressLint("ViewHolder") View listItemView = layoutInflater.inflate(R.layout.list_view_item_products,null,true);
 
-        TextView name = (TextView) listItemView.findViewById(R.id.tvName);
-        TextView brand = (TextView) listItemView.findViewById(R.id.tvBrand);
+        TextView name = listItemView.findViewById(R.id.tvName);
+        TextView brand = listItemView.findViewById(R.id.tvBrand);
 
         Product product= arrayList.get(position);
 

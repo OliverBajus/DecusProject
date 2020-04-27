@@ -1,4 +1,4 @@
-package com.spse.decusproject;
+package com.spse.decusproject.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,12 +20,10 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
-    ProgressBar progressBar;
-    EditText email;
-    Button sendReset;
-    ImageView goBack;
+    private ProgressBar progressBar;
+    private EditText email;
 
-    FirebaseAuth firebaseAuth;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +32,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
         progressBar=findViewById(R.id.progressBar);
         email=findViewById(R.id.emailForReset);
-        sendReset=findViewById(R.id.btnSendReset);
-        goBack=findViewById(R.id.goBack);
+        Button sendReset = findViewById(R.id.btnSendReset);
+        ImageView goBack = findViewById(R.id.goBack);
 
         firebaseAuth= FirebaseAuth.getInstance();
 
@@ -46,7 +44,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 final String userEmail = email.getText().toString().trim();
 
                 if(TextUtils.isEmpty(userEmail)){
-                    email.setError("Email is Required.");
+                    email.setError("Email is required.");
                     return;
                 }
                 firebaseAuth.sendPasswordResetEmail(userEmail)
@@ -55,8 +53,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<Void> task) {
                                 progressBar.setVisibility(View.GONE);
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(ForgotPasswordActivity.this,"We sent you password reset email",Toast.LENGTH_LONG).show();
-                                    startActivity(new Intent(getApplicationContext(),Login.class));
+                                    Toast.makeText(ForgotPasswordActivity.this,"We have sent you a password reset email",Toast.LENGTH_LONG).show();
+                                    startActivity(new Intent(getApplicationContext(), Login.class));
                                 }
                                 else  Toast.makeText(ForgotPasswordActivity.this,"Error!!",Toast.LENGTH_LONG).show();
                             }

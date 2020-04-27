@@ -1,4 +1,4 @@
-package com.spse.decusproject;
+package com.spse.decusproject.PopUp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +10,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.spse.decusproject.Adapter.ListViewAdapter;
+import com.spse.decusproject.Objects.Allergen;
 import com.spse.decusproject.CosmeticDatabase.CosmeticDatabase;
 
 import android.content.Intent;
@@ -19,11 +20,11 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.security.cert.PolicyNode;
 import java.util.ArrayList;
 
 public class ScannedIngredientsPopUp extends AppCompatActivity {
@@ -32,10 +33,10 @@ public class ScannedIngredientsPopUp extends AppCompatActivity {
     private ListViewAdapter adapter;
     public static ArrayList<String> arrayListOfIngredients = new ArrayList<>();
     private static ArrayList<Allergen> arrayList=new ArrayList<Allergen>();
-    DatabaseReference databaseAllergens;
-    FirebaseAuth fAuth;
-    TextView warning_text;
-    ImageView goback;
+    private DatabaseReference databaseAllergens;
+    private  FirebaseAuth fAuth;
+    private TextView warning_text;
+    private ImageView goback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +72,6 @@ public class ScannedIngredientsPopUp extends AppCompatActivity {
             Allergen allergen = new Allergen(object);
 
             for (Allergen allergen1:arrayList) {
-                System.out.println("Som v for");
-                System.out.println("HAAAAAAALLOOOOOOO");
                 System.out.println(allergen1.getIngredientName());
                 if (allergen.getIngredientName().toLowerCase().equals(allergen1.getIngredientName().toLowerCase())){
                    warning_text.setText("Be careful, this product contains your allergens");return;
@@ -83,8 +82,6 @@ public class ScannedIngredientsPopUp extends AppCompatActivity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println(arrayListOfIngredients.get(position).trim());
-
                 String ingredient = arrayListOfIngredients.get(position);
                 CosmeticDatabase database = null;
                 try {
@@ -94,12 +91,15 @@ public class ScannedIngredientsPopUp extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                System.out.println(database.getName());
-                System.out.println(database.getFunction());
-                Intent intent = new Intent(ScannedIngredientsPopUp.this, PopUpActivity.class);
-                intent.putExtra("NAME", database.getName());
-                intent.putExtra("FUNCTION", database.getFunction());
-                startActivity(intent);
+
+                if(database.getFunction() != null ){
+                    Intent intent = new Intent(ScannedIngredientsPopUp.this, PopUpActivity.class);
+                    intent.putExtra("NAME", database.getName());
+                    intent.putExtra("FUNCTION", database.getFunction());
+                    startActivity(intent);
+                }else {
+                    Toast.makeText(ScannedIngredientsPopUp.this, "Ingredient not found", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

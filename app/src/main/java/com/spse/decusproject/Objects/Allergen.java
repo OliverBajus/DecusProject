@@ -1,14 +1,11 @@
-package com.spse.decusproject;
+package com.spse.decusproject.Objects;
 
 
 public class Allergen {
-    String ingredientName;
-    String id;
+    private String ingredientName;
+    private String id;
 
-    public Allergen() {
-    }
-
-    public Allergen(String ingredientName,String id) {
+    public Allergen(String ingredientName, String id) {
         this.ingredientName = ingredientName;
         this.id = id;
     }

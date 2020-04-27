@@ -1,44 +1,32 @@
-package com.spse.decusproject;
+package com.spse.decusproject.Activity;
 
 import android.Manifest;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.PersistableBundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.decus.BuildConfig;
 import com.example.decus.R;
 import com.google.android.gms.vision.Frame;
-import com.google.android.gms.vision.text.Text;
 import com.google.android.gms.vision.text.TextBlock;
 import com.google.android.gms.vision.text.TextRecognizer;
+import com.spse.decusproject.PopUp.ScannedIngredientsPopUp;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
-import java.util.regex.Pattern;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,26 +34,25 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 
 public class OCR extends AppCompatActivity {
 
-    Button chooseImage, searchButton;
-    EditText mResultEt;
-    ImageView mPreviewIv,goBack;
+    private Button chooseImage, searchButton;
+    private EditText mResultEt;
+    private ImageView mPreviewIv,goBack;
 
     private static final int CAMERA_REQUEST_CODE = 200;
     private static final int STORAGE_REQUEST_CODE = 400;
     private static final int IMAGE_PICK_GALLERY_CODE = 1000;
     private static final int IMAGE_PICK_CAMERA_CODE = 1001;
 
-    String cameraPermission[];
-    String storagePermission[];
-    String arrayOfIngredients[];
-    ArrayList<String> arrayListOfIngredients;
-    String ingrediencie;
+    private String[] cameraPermission;
+    private String[] storagePermission;
+    private String[] arrayOfIngredients;
+    private ArrayList<String> arrayListOfIngredients;
+    private String ingrediencie;
 
-    Uri image_uri;
+    private Uri image_uri;
 
 
 
@@ -98,7 +85,7 @@ public class OCR extends AppCompatActivity {
             public void onClick(View v) {
                 ingrediencie = mResultEt.getText().toString();
                 if (ingrediencie.matches("")) {
-                    Toast.makeText(OCR.this, "Non ingredients found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(OCR.this, "Ingredients not found", Toast.LENGTH_SHORT).show();
                 } else {
                     System.out.println(ingrediencie);
                     int startIndex = ingrediencie.indexOf(":");
@@ -123,7 +110,7 @@ public class OCR extends AppCompatActivity {
         goBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }
         });
     }
@@ -217,7 +204,7 @@ public class OCR extends AppCompatActivity {
                     if (cameraAccepted && writeStorageAccepted) {
                         pickCamera();
                     } else{
-                        Toast.makeText(this, "permission denied", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
                     }
                 }
             case STORAGE_REQUEST_CODE:
@@ -227,7 +214,7 @@ public class OCR extends AppCompatActivity {
                     if (writeStorageAccepted) {
                         pickGallery();
                     } else{
-                        Toast.makeText(this, "permission denied", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
                     }
                 }
                 break;

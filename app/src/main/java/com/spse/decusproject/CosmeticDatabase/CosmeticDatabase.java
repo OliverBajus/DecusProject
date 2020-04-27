@@ -14,7 +14,6 @@ public class CosmeticDatabase {
 
     private String name;
     private String function = null;
-    private JSONArray fields;
 
     public String getName() {
         return name;
@@ -28,7 +27,6 @@ public class CosmeticDatabase {
 
         input.replaceAll(" ","+");
 
-
         String url = "https://public.opendatasoft.com/api/records/1.0/search/?dataset=cosmetic-ingredient-database-ingredients-and-fragrance-inventory&q="+input+"&rows=1&facet=update_date&facet=restriction&facet=function";
 
         URL obj = new URL(url);
@@ -37,7 +35,7 @@ public class CosmeticDatabase {
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(con.getInputStream()));
         String inputLine;
-        StringBuffer response = new StringBuffer();
+        StringBuilder response = new StringBuilder();
         while ((inputLine = in.readLine()) != null) {
             response.append(inputLine);
         }

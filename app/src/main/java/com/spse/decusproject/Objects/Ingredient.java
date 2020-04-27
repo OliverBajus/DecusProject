@@ -1,8 +1,8 @@
-package com.spse.decusproject;
+package com.spse.decusproject.Objects;
 
 public class Ingredient {
 
-    String name,description;
+    private String name,description;
 
     public Ingredient() {
     }

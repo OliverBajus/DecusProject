@@ -1,4 +1,4 @@
-package com.spse.decusproject.Fragment;
+package com.spse.decusproject.Objects;
 
 import android.view.View;
 import android.widget.TextView;
@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class IngredientViewHolder extends RecyclerView.ViewHolder {
 
-    TextView name,description;
+    private TextView name,description;
 
     public IngredientViewHolder(@NonNull View itemView) {
         super(itemView);

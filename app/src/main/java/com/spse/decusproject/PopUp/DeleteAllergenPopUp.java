@@ -1,4 +1,4 @@
-package com.spse.decusproject;
+package com.spse.decusproject.PopUp;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -18,6 +18,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.spse.decusproject.Objects.Allergen;
+import com.spse.decusproject.FirebaseLoadDone;
+import com.spse.decusproject.Objects.Product;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import java.util.ArrayList;
@@ -26,19 +29,19 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class DeleteAllergenPopUp extends Activity implements FirebaseLoadDone{
+public class DeleteAllergenPopUp extends Activity implements FirebaseLoadDone {
 
-    Button deleteAllergen;
-    ImageView goBack;
-    SearchableSpinner spinner;
+    private Button deleteAllergen;
+    private ImageView goBack;
+    private SearchableSpinner spinner;
 
-    FirebaseAuth fAuth;
+    private FirebaseAuth fAuth;
 
-    DatabaseReference databaseAllergens;
+    private DatabaseReference databaseAllergens;
 
-    List<Allergen> allergens;
-    Allergen choosenAllergen;
-    FirebaseLoadDone firebaseLoadDone;
+    private List<Allergen> allergens;
+    private Allergen choosenAllergen;
+    private FirebaseLoadDone firebaseLoadDone;
 
 
     @Override
@@ -112,7 +115,6 @@ public class DeleteAllergenPopUp extends Activity implements FirebaseLoadDone{
     }
 
     private void deleteProduct(String allergenID) {
-
         DatabaseReference dP =  FirebaseDatabase.getInstance().getReference("allergensDatabase").child(fAuth.getCurrentUser().getUid()).child(allergenID);
         dP.removeValue();
         finish();
@@ -131,7 +133,7 @@ public class DeleteAllergenPopUp extends Activity implements FirebaseLoadDone{
 
         List<String> name_list = new ArrayList<>();
 
-        for (Allergen allergen:allergenList) name_list.add(allergen.ingredientName);
+        for (Allergen allergen:allergenList) name_list.add(allergen.getIngredientName());
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,name_list);
         spinner.setAdapter(adapter);
     }

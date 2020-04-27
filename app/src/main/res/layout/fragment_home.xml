@@ -89,7 +89,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/montserrat"
-            android:text="Search informations product components"
+            android:text="Search informations about product component"
             android:textColor="#5A5A5A"
             android:textSize="12sp"
             android:textStyle="bold"

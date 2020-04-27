@@ -1,4 +1,4 @@
-package com.spse.decusproject;
+package com.spse.decusproject.PopUp;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -20,6 +20,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.spse.decusproject.Objects.Allergen;
+import com.spse.decusproject.Objects.DailyRoutine;
+import com.spse.decusproject.FirebaseLoadDone;
+import com.spse.decusproject.Objects.Product;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import java.util.ArrayList;
@@ -29,20 +33,20 @@ import androidx.annotation.NonNull;
 
 public class DayRoutinePopUp extends Activity implements FirebaseLoadDone {
 
-    Button chooseProduct;
-    ImageView goBack;
-    SearchableSpinner spinner;
+    private Button chooseProduct;
+    private ImageView goBack;
+    private SearchableSpinner spinner;
 
-    FirebaseAuth fAuth;
+    private FirebaseAuth fAuth;
 
-    DatabaseReference databaseProducts;
-    DatabaseReference databaseRoutine;
+    private DatabaseReference databaseProducts;
+    private DatabaseReference databaseRoutine;
 
-    FirebaseLoadDone firebaseLoadDone;
-    String dateIntent,dayPart;
-    List<Product> products;
-    Product choosenProdcut;
-    boolean isFirstTimeClicked= true;
+    private FirebaseLoadDone firebaseLoadDone;
+    private String dateIntent,dayPart;
+    private List<Product> products;
+    private Product choosenProdcut;
+    private boolean isFirstTimeClicked= true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

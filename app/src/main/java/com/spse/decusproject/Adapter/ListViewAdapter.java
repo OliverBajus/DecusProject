@@ -1,7 +1,7 @@
 package com.spse.decusproject.Adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,45 +9,29 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.decus.R;
-
-import com.spse.decusproject.ScannedIngredientsPopUp;
-
-import java.util.ArrayList;
-import java.util.Locale;
-
-import static com.spse.decusproject.ScannedIngredientsPopUp.arrayListOfIngredients;
+import com.spse.decusproject.PopUp.ScannedIngredientsPopUp;
 
 public class ListViewAdapter extends BaseAdapter {
 
-    // Declare Variables
-
-    Context mContext;
-    LayoutInflater inflater;
-    private ArrayList<String> arraylist;
+    private LayoutInflater inflater;
 
     public ListViewAdapter(Context context) {
-        mContext = context;
-        inflater = LayoutInflater.from(mContext);
-        arraylist = new ArrayList<String>();
-        arraylist.addAll(arrayListOfIngredients);
-        System.out.println("zaciatok " + arraylist.size());
+        // Declare Variables
+        inflater = LayoutInflater.from(context);
     }
 
-    public class ViewHolder {
+    public static class ViewHolder {
         TextView name;
     }
 
     @Override
     public int getCount() {
-        System.out.println("size: " + arrayListOfIngredients.size());
-        System.out.println("arraylist size: " + arraylist.size());
         return ScannedIngredientsPopUp.arrayListOfIngredients.size();
-
     }
 
     @Override
     public String getItem(int position) {
-        return ScannedIngredientsPopUp.arrayListOfIngredients.get(position).toString();
+        return ScannedIngredientsPopUp.arrayListOfIngredients.get(position);
     }
 
     @Override
@@ -55,6 +39,7 @@ public class ListViewAdapter extends BaseAdapter {
         return position;
     }
 
+    @SuppressLint("SetTextI18n")
     public View getView(final int position, View view, ViewGroup parent) {
         final ViewHolder holder;
         if (view == null) {
@@ -69,25 +54,4 @@ public class ListViewAdapter extends BaseAdapter {
         holder.name.setText("" + ScannedIngredientsPopUp.arrayListOfIngredients.get(position));
         return view;
     }
-
-    // Filter Class
-    public void filter(String charText) {
-        charText = charText.toLowerCase(Locale.getDefault());
-        ScannedIngredientsPopUp.arrayListOfIngredients.clear();
-        Log.d("vsetky", "ahoj");
-        if (charText.length() == 0) {
-            ScannedIngredientsPopUp.arrayListOfIngredients.addAll(arraylist);
-            System.out.println("vsetky");
-        } else {
-            for (String wp : arraylist) {
-                String sp = String.valueOf(wp);
-                if (sp.toLowerCase(Locale.getDefault()).contains(charText)) {
-                    ScannedIngredientsPopUp.arrayListOfIngredients.add(wp);
-
-                }
-            }
-        }
-        notifyDataSetChanged();
-    }
-
 }

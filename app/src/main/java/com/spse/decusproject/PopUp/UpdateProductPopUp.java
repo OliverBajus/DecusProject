@@ -1,4 +1,4 @@
-package com.spse.decusproject;
+package com.spse.decusproject.PopUp;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -25,6 +25,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.spse.decusproject.Objects.Allergen;
+import com.spse.decusproject.FirebaseLoadDone;
+import com.spse.decusproject.Objects.Product;
 import com.toptoche.searchablespinnerlibrary.SearchableSpinner;
 
 import java.util.ArrayList;
@@ -34,21 +37,21 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class UpdateProductPopUp extends Activity implements DatePickerDialog.OnDateSetListener,FirebaseLoadDone{
+public class UpdateProductPopUp extends Activity implements DatePickerDialog.OnDateSetListener, FirebaseLoadDone {
 
-    EditText productName,productBrand;
-    TextView productExpDate;
-    Spinner spinner;
-    Button editBtn;
-    String date;
-    ImageView goBack;
-    SearchableSpinner spinnerSearch;
-    FirebaseLoadDone firebaseLoadDone;
-    DatabaseReference databaseProducts;
-    FirebaseAuth fAuth;
+    private EditText productName,productBrand;
+    private TextView productExpDate;
+    private Spinner spinner;
+    private Button editBtn;
+    private String date;
+    private ImageView goBack;
+    private SearchableSpinner spinnerSearch;
+    private FirebaseLoadDone firebaseLoadDone;
+    private DatabaseReference databaseProducts;
+    private FirebaseAuth fAuth;
 
-    List<Product> products;
-    Product choosenProdcut;
+    private List<Product> products;
+    private Product choosenProdcut;
 
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {

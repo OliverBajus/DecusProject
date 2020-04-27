@@ -1,4 +1,4 @@
-package com.spse.decusproject;
+package com.spse.decusproject.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -20,11 +20,11 @@ import com.google.firebase.auth.FirebaseAuth;
 
 
 public class Login extends AppCompatActivity {
-    EditText mEmail,mPassword;
-    TextView mPasswordForgotBtn;
-    Button mRegisterBtn,mLoginBtn;
-    ProgressBar progressBar;
-    FirebaseAuth fAuth;
+    private EditText mEmail,mPassword;
+    private TextView mPasswordForgotBtn;
+    private Button mRegisterBtn,mLoginBtn;
+    private ProgressBar progressBar;
+    private FirebaseAuth fAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +71,7 @@ public class Login extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             Toast.makeText(Login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
                         }else {
                             Toast.makeText(Login.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             progressBar.setVisibility(View.GONE);
@@ -88,7 +88,7 @@ public class Login extends AppCompatActivity {
         mRegisterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),Register.class));
+                startActivity(new Intent(getApplicationContext(), Register.class));
             }
         });
 

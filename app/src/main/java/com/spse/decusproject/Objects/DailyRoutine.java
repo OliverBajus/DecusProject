@@ -1,13 +1,8 @@
-package com.spse.decusproject;
-
-        import java.util.Date;
+package com.spse.decusproject.Objects;
 
 public class DailyRoutine {
 
-    String id,productID,dayPart,date;
-
-    public DailyRoutine() {
-    }
+    private String id,productID,dayPart,date;
 
     public DailyRoutine(String id, String productID, String dayPart, String date) {
         this.id = id;

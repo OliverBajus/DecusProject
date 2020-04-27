@@ -1,5 +1,6 @@
 package com.spse.decusproject.Fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -21,23 +22,22 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.spse.decusproject.DeleteProductPopUp;
-import com.spse.decusproject.PopActivity;
-import com.spse.decusproject.Product;
-import com.spse.decusproject.Fragment.ProductsViewHolder;
-import com.spse.decusproject.UpdateProductPopUp;
+import com.spse.decusproject.PopUp.DeleteProductPopUp;
+import com.spse.decusproject.PopUp.AddProductPopUp;
+import com.spse.decusproject.Objects.Product;
+import com.spse.decusproject.Objects.ProductsViewHolder;
+import com.spse.decusproject.PopUp.UpdateProductPopUp;
+
+import java.util.Objects;
 
 public class ProductFragment extends Fragment {
 
-    Button addProduct,deleteProduct,editProduct;
-    RecyclerView recyclerView;
+    private Button addProduct,deleteProduct,editProduct;
+    private RecyclerView recyclerView;
 
-    FirebaseAuth fAuth;
-    FirebaseFirestore firebaseFirestore;
-    FirebaseRecyclerOptions<Product> options;
-    FirebaseRecyclerAdapter<Product, ProductsViewHolder> adapter;
+    private  FirebaseRecyclerOptions<Product> options;
 
-    Query databaseProductsQuery;
+    private Query databaseProductsQuery;
 
     public ProductFragment() {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -46,12 +46,9 @@ public class ProductFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view =  inflater.inflate(R.layout.fragment_product, container, false);
         findViews(view);
         fillRecyclerView();
-
-
         return view;
     }
 
@@ -62,19 +59,19 @@ public class ProductFragment extends Fragment {
         addProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity().getApplicationContext(), PopActivity.class));
+                startActivity(new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), AddProductPopUp.class));
             }
         });
         deleteProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity().getApplicationContext(), DeleteProductPopUp.class));
+                startActivity(new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), DeleteProductPopUp.class));
             }
         });
         editProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity().getApplicationContext(), UpdateProductPopUp.class));
+                startActivity(new Intent(Objects.requireNonNull(getActivity()).getApplicationContext(), UpdateProductPopUp.class));
             }
         });
     }
@@ -82,28 +79,47 @@ public class ProductFragment extends Fragment {
     private void fillRecyclerView() {
 
         options= new FirebaseRecyclerOptions.Builder<Product>().setQuery(databaseProductsQuery,Product.class).build();
-        adapter= new FirebaseRecyclerAdapter<Product, ProductsViewHolder>(options) {
+        FirebaseRecyclerAdapter<Product, ProductsViewHolder> adapter = new FirebaseRecyclerAdapter<Product, ProductsViewHolder>(options) {
+            @SuppressLint("SetTextI18n")
             @Override
             protected void onBindViewHolder(@NonNull ProductsViewHolder holder, int position, @NonNull Product model) {
 
                 holder.getName().setText(model.getName());
-                holder.getBrand().setText("Brand: "+model.getBrand());
-                holder.getCategory().setText("Category: "+model.getCategory());
+                holder.getBrand().setText("Brand: " + model.getBrand());
+                holder.getCategory().setText("Category: " + model.getCategory());
                 holder.getDate().setText(model.getDate());
-                if (model.getCategory() == "Acid") { holder.getImage().setImageResource(R.drawable.acid); }
-                else if(model.getCategory() == "Mask") { holder.getImage().setImageResource(R.drawable.mask); }
-                else if(model.getCategory() == "Cleanser ") { holder.getImage().setImageResource(R.drawable.cleanser); }
-                else if(model.getCategory() == "Moisturizer") { holder.getImage().setImageResource(R.drawable.moisturizer); }
-                else if(model.getCategory() == "Oil") { holder.getImage().setImageResource(R.drawable.oil); }
-                else if(model.getCategory() == "Make Up") { holder.getImage().setImageResource(R.drawable.makeup); }
-                else if(model.getCategory() == "Fragrance") { holder.getImage().setImageResource(R.drawable.fragrance); }
-                else if(model.getCategory() == "Nails care") { holder.getImage().setImageResource(R.drawable.nailcare); }
+                switch (model.getCategory()) {
+                    case "Acid":
+                        holder.getImage().setImageResource(R.drawable.acid);
+                        break;
+                    case "Mask":
+                        holder.getImage().setImageResource(R.drawable.mask);
+                        break;
+                    case "Cleanser":
+                        holder.getImage().setImageResource(R.drawable.cleanser);
+                        break;
+                    case "Moisturizer":
+                        holder.getImage().setImageResource(R.drawable.moisturizer);
+                        break;
+                    case "Oil":
+                        holder.getImage().setImageResource(R.drawable.oil);
+                        break;
+                    case "Make Up":
+                        holder.getImage().setImageResource(R.drawable.makeup);
+                        break;
+                    case "Fragrance":
+                        holder.getImage().setImageResource(R.drawable.fragrance);
+                        break;
+                    case "Nails care":
+                        holder.getImage().setImageResource(R.drawable.nailcare);
+                        break;
+                }
             }
 
             @NonNull
             @Override
             public ProductsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.product_list_layout,parent,false);
+                View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_list_layout, parent, false);
                 return new ProductsViewHolder(v);
             }
         };
@@ -120,9 +136,9 @@ public class ProductFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
 
-        fAuth = FirebaseAuth.getInstance();
-        firebaseFirestore= FirebaseFirestore.getInstance();
-        databaseProductsQuery =  FirebaseDatabase.getInstance().getReference("productsDatabase").child(fAuth.getCurrentUser().getUid());
+        FirebaseAuth fAuth = FirebaseAuth.getInstance();
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+        databaseProductsQuery =  FirebaseDatabase.getInstance().getReference("productsDatabase").child(Objects.requireNonNull(fAuth.getCurrentUser()).getUid());
 
     }
 }

@@ -1,4 +1,4 @@
-package com.spse.decusproject;
+package com.spse.decusproject.Activity;
 
 import android.os.Bundle;
 import android.view.MenuItem;
