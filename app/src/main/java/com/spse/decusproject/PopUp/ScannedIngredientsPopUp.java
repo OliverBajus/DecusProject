@@ -69,35 +69,6 @@ public class ScannedIngredientsPopUp extends AppCompatActivity {
         for (String object : arrayListOfIngredients) {
             adapter = new ListViewAdapter(ScannedIngredientsPopUp.this);
             list.setAdapter(adapter);
-
-
-            Allergen allergen = new Allergen(object);
-            warning_text.append( allergen.getIngredientName().toUpperCase().trim().replaceAll(".",""));
-            try {
-                final String name = allergen.getIngredientName().toUpperCase().trim().replaceAll(".","");
-                warning_text.append(name);
-                DatabaseReference fnc=databaseAllergens.child(name);
-                DatabaseReference functions = fnc.child("ingredientName");
-                functions.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.getValue(String.class).equals(name)){
-                            warning_text.setText("Be careful, this product contains your allergens");return;
-                        }
-
-
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        Log.w("tag", "onCancelled", databaseError.toException());
-                    }
-                });
-            }
-            catch (NullPointerException e){
-                e.printStackTrace();
-            }
-
         }
 
 
