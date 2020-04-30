@@ -2,9 +2,12 @@ package com.spse.decusproject.Fragment;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -276,7 +279,7 @@ public class ProfileFragment extends Fragment {
         SectionPagerAdapter adapter = new SectionPagerAdapter(getChildFragmentManager());
 
         adapter.addFragment(new ProductFragment(), "Products");
-        adapter.addFragment(new IngredientFragment(), "Ingredients");
+        adapter.addFragment(new IngredientFragment(), "Allergens");
 
         viewPager.setAdapter(adapter);
     }
@@ -327,7 +330,6 @@ public class ProfileFragment extends Fragment {
         TabLayout tabLayout = view.findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
     }
-
 
 
 

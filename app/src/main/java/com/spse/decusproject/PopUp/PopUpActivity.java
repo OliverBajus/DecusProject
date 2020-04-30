@@ -16,29 +16,39 @@ import android.widget.Toast;
 
 import com.example.decus.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.spse.decusproject.Objects.Allergen;
 import com.spse.decusproject.Activity.MainActivity;
-import com.spse.decusproject.Objects.Ingredient;
+import com.spse.decusproject.Objects.Allergen;
+import com.spse.decusproject.Objects.Function;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 
 public class PopUpActivity extends Activity {
 
-    private TextView ingredientName, ingredientFunction, ingredientDescription;
-    private Button saveButton;
-    private ImageView goback;
-    private String name, function;
+    TextView ingredientName, ingredientFunction, ingredientDescription,textViewDesc;
+    Button saveButton;
+    ImageView goback;
+    String name, function;
+    View line;
 
-    private DatabaseReference databaseAllergens,databaseIngredients, databaseFunctions;
-    private ArrayList<Allergen> arrayList=new ArrayList<Allergen>();
+    DatabaseReference databaseAllergens,databaseIngredients, databaseFunctions;
+    FirebaseAuth fAuth;
+    ArrayList<Allergen> arrayList=new ArrayList<Allergen>();
+    ArrayList<Function> arrayListF=new ArrayList<Function>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,11 +59,17 @@ public class PopUpActivity extends Activity {
         ingredientFunction = findViewById(R.id.ingredient_function);
         saveButton = findViewById(R.id.save_button);
         goback = findViewById(R.id.goBack);
-        FirebaseAuth fAuth = FirebaseAuth.getInstance();
+        textViewDesc = findViewById(R.id.textViewDescription);
+        fAuth = FirebaseAuth.getInstance();
+        line = findViewById(R.id.line2);
 
         databaseAllergens = FirebaseDatabase.getInstance().getReference("allergensDatabase").child(fAuth.getCurrentUser().getUid());
         databaseIngredients = FirebaseDatabase.getInstance().getReference("ingredientsDatabase");
         databaseFunctions = FirebaseDatabase.getInstance().getReference("functionsDatabase");
+
+
+
+
 
         databaseAllergens.addValueEventListener(new ValueEventListener() {
             @Override
@@ -75,11 +91,51 @@ public class PopUpActivity extends Activity {
             name = getIntent().getStringExtra("NAME");
             function = getIntent().getStringExtra("FUNCTION");
         }
-
+        ingredientDescription.setText(function);
         try{
 
+        if (function.contains(",")){
+            String[] functions = function.split(",");
+            for (final String f:functions) {
+                DatabaseReference fnc=databaseFunctions.child(f.trim());
+                DatabaseReference functionsRef = fnc.child("description");
+                functionsRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        ingredientFunction.append("\n"+f+": "+dataSnapshot.getValue(String.class)+"\n");
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.w("tag", "onCancelled", databaseError.toException());
+                    }
+                });
+            }
+        }
+        else {
+            DatabaseReference fnc=databaseFunctions.child(function);
+            DatabaseReference functions = fnc.child("description");
+            functions.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    ingredientFunction.setText(function+": "+dataSnapshot.getValue(String.class));
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.w("tag", "onCancelled", databaseError.toException());
+                }
+            });
+
+        }
+
+
+
         ingredientName.setText(name);
-        ingredientFunction.setText(function);
+
+
 
 
         DatabaseReference ingredients=databaseIngredients.child(name);
@@ -89,7 +145,11 @@ public class PopUpActivity extends Activity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 ingredientDescription.setText(dataSnapshot.getValue(String.class));
-                if (ingredientDescription.getText().toString().isEmpty())ingredientDescription.setText("none");
+                if (ingredientDescription.getText().toString().isEmpty()){
+                    ingredientDescription.setVisibility(View.GONE);
+                    textViewDesc.setVisibility(View.GONE);
+                    line.setVisibility(View.GONE);
+                }
             }
 
             @Override
@@ -144,21 +204,20 @@ public class PopUpActivity extends Activity {
         String description=ingredientDescription.getText().toString().trim();
 
         if (!TextUtils.isEmpty(name)){
-                    if (description.equals("Description")) description="none";
                     String id=databaseAllergens.push().getKey();
                     Allergen allergen = new Allergen(name,id);
 
                    for (Allergen allergen1:arrayList) {
                                 if (allergen.getIngredientName().equals(allergen1.getIngredientName())){
-                                    Toast.makeText(PopUpActivity.this,"This ingredient is already saved as an allergen",Toast.LENGTH_LONG).show();
-                                    startActivity(new Intent(PopUpActivity.this, MainActivity.class));
-                                    return;
+                                    Toast.makeText(PopUpActivity.this,"This ingredient is already saved as allergen",Toast.LENGTH_LONG).show();
+                                    startActivity(new Intent(PopUpActivity.this, MainActivity.class));return;
                                 }
                          }
             databaseAllergens.child(id).setValue(allergen);
-            Toast.makeText(PopUpActivity.this,"Ingredient added as an allergen successfully.",Toast.LENGTH_LONG).show();
-            startActivity(new Intent(PopUpActivity.this, MainActivity.class));
-            return;
+            Toast.makeText(PopUpActivity.this,"Ingredient added as allergen successfully.",Toast.LENGTH_LONG).show();
+            startActivity(new Intent(PopUpActivity.this,MainActivity.class));return;
+
+
         }
         else Toast.makeText(PopUpActivity.this,"Error! Something went wrong.",Toast.LENGTH_LONG).show();
     }

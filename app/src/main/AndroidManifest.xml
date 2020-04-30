@@ -8,12 +8,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.spse.decusproject.PopUp.ScannedIngredientsPopUp"></activity>
+
         <activity android:name="com.spse.decusproject.Activity.MainActivity"/>
         <activity android:name="com.spse.decusproject.Activity.ForgotPasswordActivity" />
         <activity android:name="com.spse.decusproject.PopUp.DeleteProductPopUp" android:theme="@style/AppTheme.PopUp"/>
         <activity android:name="com.spse.decusproject.PopUp.DeleteAllergenPopUp" android:theme="@style/AppTheme.PopUp"/>
         <activity android:name="com.spse.decusproject.PopUp.UpdateProductPopUp" android:theme="@style/AppTheme.PopUp"/>
+        <activity android:name="com.spse.decusproject.PopUp.ScannedIngredientsPopUp"/>
         <activity android:name="com.spse.decusproject.PopUp.DayRoutinePopUp" android:theme="@style/AppTheme.PopUp"  />
         <activity android:name="com.spse.decusproject.PopUp.AddProductPopUp" android:theme="@style/AppTheme.PopUp" />
         <activity android:name="com.spse.decusproject.Activity.OCR">

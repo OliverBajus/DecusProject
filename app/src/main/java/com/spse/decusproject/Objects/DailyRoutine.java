@@ -4,12 +4,16 @@ public class DailyRoutine {
 
     private String id,productID,dayPart,date;
 
+    public DailyRoutine() {
+    }
+
     public DailyRoutine(String id, String productID, String dayPart, String date) {
         this.id = id;
         this.productID = productID;
         this.dayPart = dayPart;
         this.date = date;
     }
+
 
     public String getId() {
         return id;

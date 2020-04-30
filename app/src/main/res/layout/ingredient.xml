@@ -48,6 +48,33 @@
         app:layout_constraintTop_toBottomOf="@+id/ingredient_name" />
 
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:id="@+id/function"
+        app:layout_constraintTop_toBottomOf="@id/line1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:id="@+id/ingredient_function"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:background="@android:color/white"
+                android:ems="10"
+                android:fontFamily="@font/montserrat"
+                android:padding="10dp"
+                android:textColor="#000000"
+                android:textColorHint="#838383"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </ScrollView>
 
     <TextView
         android:id="@+id/textView5"
@@ -67,28 +94,6 @@
         app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:layout_constraintVertical_bias="0.058"/>
 
-    <TextView
-        android:id="@+id/ingredient_function"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:background="@android:color/white"
-        android:ems="10"
-        android:fontFamily="@font/montserrat"
-        android:padding="10dp"
-        android:text="Function"
-        android:textColor="#000000"
-        android:textColorHint="#838383"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5"
-        app:layout_constraintVertical_bias="0.0" />
-
-
 
     <View
         android:id="@+id/line1"
@@ -102,11 +107,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ingredient_function"
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        app:layout_constraintVertical_bias="0.008" />
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:background="#838383"
+        android:backgroundTint="#838383"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewDescription"
         app:layout_constraintVertical_bias="0.008" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/textViewDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
@@ -120,29 +140,37 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ingredient_function"
+        app:layout_constraintTop_toBottomOf="@+id/function"
         app:layout_constraintVertical_bias="0.057" />
-
-    <TextView
-        android:id="@+id/ingredient_description"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:background="@android:color/white"
-        android:ems="10"
-        android:fontFamily="@font/montserrat"
-        android:padding="10dp"
-        android:text="Description"
-        android:textColor="#000000"
-        android:textColorHint="#838383"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6"
-        app:layout_constraintVertical_bias="0.0" />
+        android:layout_height="100dp"
+        android:id="@+id/description"
+        app:layout_constraintTop_toBottomOf="@id/line2"
+        android:layout_marginTop="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:id="@+id/ingredient_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:background="@android:color/white"
+                android:ems="10"
+                android:fontFamily="@font/montserrat"
+                android:padding="10dp"
+                android:textColor="#000000"
+                android:textColorHint="#838383"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </ScrollView>
+
 
 
     <Button
@@ -150,7 +178,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginEnd="30dp"
         android:background="@drawable/login_register_btn"
         android:fontFamily="@font/montserrat"
@@ -161,7 +189,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ingredient_description" />
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

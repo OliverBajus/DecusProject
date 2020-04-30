@@ -10,21 +10,23 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.spse.decusproject.Adapter.ListViewAdapter;
-import com.spse.decusproject.Objects.Allergen;
 import com.spse.decusproject.CosmeticDatabase.CosmeticDatabase;
+import com.spse.decusproject.Objects.Allergen;
+import com.spse.decusproject.PopUp.PopUpActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.security.cert.PolicyNode;
 import java.util.ArrayList;
 
 public class ScannedIngredientsPopUp extends AppCompatActivity {
@@ -33,10 +35,10 @@ public class ScannedIngredientsPopUp extends AppCompatActivity {
     private ListViewAdapter adapter;
     public static ArrayList<String> arrayListOfIngredients = new ArrayList<>();
     private static ArrayList<Allergen> arrayList=new ArrayList<Allergen>();
-    private DatabaseReference databaseAllergens;
-    private  FirebaseAuth fAuth;
-    private TextView warning_text;
-    private ImageView goback;
+    DatabaseReference databaseAllergens;
+    FirebaseAuth fAuth;
+    TextView warning_text;
+    ImageView goback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,24 +66,48 @@ public class ScannedIngredientsPopUp extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {}
         });
 
-
         for (String object : arrayListOfIngredients) {
             adapter = new ListViewAdapter(ScannedIngredientsPopUp.this);
             list.setAdapter(adapter);
 
-            Allergen allergen = new Allergen(object);
 
-            for (Allergen allergen1:arrayList) {
-                System.out.println(allergen1.getIngredientName());
-                if (allergen.getIngredientName().toLowerCase().equals(allergen1.getIngredientName().toLowerCase())){
-                   warning_text.setText("Be careful, this product contains your allergens");return;
-                }
+            Allergen allergen = new Allergen(object);
+            warning_text.append( allergen.getIngredientName().toUpperCase().trim().replaceAll(".",""));
+            try {
+                final String name = allergen.getIngredientName().toUpperCase().trim().replaceAll(".","");
+                warning_text.append(name);
+                DatabaseReference fnc=databaseAllergens.child(name);
+                DatabaseReference functions = fnc.child("ingredientName");
+                functions.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.getValue(String.class).equals(name)){
+                            warning_text.setText("Be careful, this product contains your allergens");return;
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.w("tag", "onCancelled", databaseError.toException());
+                    }
+                });
             }
+            catch (NullPointerException e){
+                e.printStackTrace();
+            }
+
         }
+
+
+
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                System.out.println(arrayListOfIngredients.get(position).trim());
+
                 String ingredient = arrayListOfIngredients.get(position);
                 CosmeticDatabase database = null;
                 try {
@@ -91,15 +117,12 @@ public class ScannedIngredientsPopUp extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-                if(database.getFunction() != null ){
-                    Intent intent = new Intent(ScannedIngredientsPopUp.this, PopUpActivity.class);
-                    intent.putExtra("NAME", database.getName());
-                    intent.putExtra("FUNCTION", database.getFunction());
-                    startActivity(intent);
-                }else {
-                    Toast.makeText(ScannedIngredientsPopUp.this, "Ingredient not found", Toast.LENGTH_SHORT).show();
-                }
+                System.out.println(database.getName());
+                System.out.println(database.getFunction());
+                Intent intent = new Intent(ScannedIngredientsPopUp.this, PopUpActivity.class);
+                intent.putExtra("NAME", database.getName());
+                intent.putExtra("FUNCTION", database.getFunction());
+                startActivity(intent);
             }
         });
 

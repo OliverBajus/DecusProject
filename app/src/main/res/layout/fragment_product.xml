@@ -39,7 +39,7 @@
             app:layout_constraintTop_toBottomOf="@id/addProduct" />
 
         <LinearLayout
-            android:layout_width="330dp"
+            android:layout_width="300dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
